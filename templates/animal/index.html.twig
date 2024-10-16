@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Animals{% endblock %}
+
+{% block body %}
+	<h1>Animals</h1>
+
+    {% if animals is empty %}
+        <p>No animals found...</p>
+    {% endif %}
+	<div class="row row-cols-1 row-cols-md-3 g-4">
+        {% for animal in animals %}
+            <div class="col">
+                <div class="card h-100">
+                    <img
+                        src="{{ animal.image }}"
+                        class="card-img-top"
+                        alt="{{ animal.name }} image"
+                    >
+                    <div class="card-body">
+                        <h5 class="card-title">{{ animal.name }}</h5>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+	</div>
+{% endblock %}

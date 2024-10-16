@@ -13,6 +13,10 @@
         {% endblock %}
     </head>
     <body>
-        {% block body %}{% endblock %}
+        {% include 'nav.html.twig' %}
+
+        <div style="padding: 70px 10px 5px 10px;">
+            {% block body %}{% endblock %}
+        </div>
     </body>
 </html>

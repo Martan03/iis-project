@@ -1,0 +1,58 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="/">Animal shelter</a>
+        <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarNavDropdown"
+            aria-controls="navbarNavDropdown"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+        >
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div
+            class="collapse navbar-collapse"
+            id="navbarNavDropdown"
+        >
+            <ul class="navbar-nav me-auto">
+                <li class="nav-item">
+                    <a
+                        class="nav-link {{ is_route_active('home') }}"
+                        href="{{ path('home') }}"
+                    >
+                        Home
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a
+                        class="nav-link {{ is_route_active('animals') }}"
+                        href="{{ path('animals') }}"
+                    >
+                        Animals
+                    </a>
+                </li>
+            </ul>
+
+            {% if app.user %}
+                <a
+                    href="{{ path('app_logout') }}"
+                    class="btn btn-outline-light"
+                    role="button"
+                >
+                    Logout
+                </a>
+            {% else %}
+                <a
+                    href="{{ path('app_login') }}"
+                    class="btn btn-outline-primary"
+                    role="button"
+                >
+                    Login
+                </a>
+            {% endif %}
+        </div>
+    </div>
+</nav>
