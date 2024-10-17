@@ -1,0 +1,5 @@
+*.jpg
+
+!cat.jpg
+!dog.jpg
+!giraffe.jpg

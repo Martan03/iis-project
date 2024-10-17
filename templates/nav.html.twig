@@ -36,6 +36,20 @@
                 </li>
             </ul>
 
+            {% if
+                    is_granted('ROLE_ADMIN') or
+                    is_granted('ROLE_VET') or
+                    is_granted('ROLE_CARER')
+            %}
+                <a
+                    href=""
+                    class="btn btn-outline-light me-2"
+                    role="button"
+                >
+                    Administration
+                </a>
+            {% endif %}
+
             {% if app.user %}
                 <a
                     href="{{ path('app_logout') }}"

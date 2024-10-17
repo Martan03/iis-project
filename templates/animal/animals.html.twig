@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Animals{% endblock %}
+
+{% block body %}
+    <div class="d-flex justify-content-between align-items-center">
+	    <h1>Animals</h1>
+
+        {% if is_granted('ROLE_CARER') %}
+            <a
+                href="{{ path('animal_editor') }}"
+                class="btn btn-primary"
+                role="button"
+            >
+                +
+            </a>
+        {% endif %}
+    </div>
+
+    {% if animals is empty %}
+        <p>No animals found...</p>
+    {% endif %}
+	<div class="row">
+        {% for animal in animals %}
+            <div class="col-lg-3 col-md-4 col-sm-6">
+                <a
+                    class="card h-100 text-decoration-none text-reset"
+                    href="{{ path('animal', { 'id': animal.id }) }}"
+                >
+                    <img
+                        src="{{ animal.image }}"
+                        class="card-img-top"
+                        alt="{{ animal.name }} image"
+                    >
+                    <div class="card-body">
+                        <h5 class="card-title">{{ animal.name }}</h5>
+                    </div>
+                </a>
+            </div>
+        {% endfor %}
+	</div>
+{% endblock %}

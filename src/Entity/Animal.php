@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\AnimalRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\File;
 
 #[ORM\Entity(repositoryClass: AnimalRepository::class)]
 class Animal
@@ -40,6 +41,8 @@ class Animal
 
     #[ORM\Column(length: 255)]
     private ?string $image = null;
+
+    private ?File $file = null;
 
     public function getId(): ?int
     {
@@ -150,6 +153,18 @@ class Animal
     public function setImage(string $image): static
     {
         $this->image = $image;
+
+        return $this;
+    }
+
+    public function getFile(): ?File
+    {
+        return $this->file;
+    }
+
+    public function setFile(?File $file = null): self
+    {
+        $this->file = $file;
 
         return $this;
     }

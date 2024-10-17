@@ -16,6 +16,13 @@ class AnimalRepository extends ServiceEntityRepository
         parent::__construct($registry, Animal::class);
     }
 
+    public function save(Animal $animal)
+    {
+        $em = $this->getEntityManager();
+        $em->persist($animal);
+        $em->flush();
+    }
+
 //    /**
 //     * @return Animal[] Returns an array of Animal objects
 //     */

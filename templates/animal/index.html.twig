@@ -1,27 +1,41 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Animals{% endblock %}
+{% block title %}{{ animal.species }} {{ animal.name }}{% endblock %}
 
 {% block body %}
-	<h1>Animals</h1>
-
-    {% if animals is empty %}
-        <p>No animals found...</p>
-    {% endif %}
-	<div class="row row-cols-1 row-cols-md-3 g-4">
-        {% for animal in animals %}
-            <div class="col">
-                <div class="card h-100">
-                    <img
-                        src="{{ animal.image }}"
-                        class="card-img-top"
-                        alt="{{ animal.name }} image"
-                    >
-                    <div class="card-body">
-                        <h5 class="card-title">{{ animal.name }}</h5>
-                    </div>
-                </div>
+	<div class="row">
+        <div class="col-md-6">
+            <img
+                src="{{ animal.image }}"
+                class="card-img-top"
+                alt="{{ animal.name }} image"
+            >
+        </div>
+        <div class="col-md-6">
+            <div>
+            <h2>{{ animal.name }}</h2>
+            <p>{{ animal.species }} {{ animal.breed }}</p>
+            <p class="mb-1">
+                <b>Date of birth:</b>
+                {{ animal.birth ?? 'not known' }}
+            </p>
+            <p class="mb-1">
+                <b>Gender:</b>
+                {{ animal.gender }}
+            </p>
+            <p class="mb-1">
+                <b>Color:</b>
+                {{ animal.color }}
+            </p>
+            <p class="mb-1">
+                <b>Height:</b>
+                {{ animal.height }} cm
+            </p>
+            <p class="mb-1">
+                <b>Weight:</b>
+                {{ animal.weight }} kg
+            </p>
             </div>
-        {% endfor %}
+        </div>
 	</div>
 {% endblock %}

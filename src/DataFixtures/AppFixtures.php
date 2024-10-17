@@ -2,12 +2,23 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\Administrator;
 use App\Entity\Animal;
+use App\Entity\Caregiver;
+use App\Entity\Veterinary;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class AppFixtures extends Fixture
 {
+    private UserPasswordHasherInterface $hasher;
+
+    public function __construct(UserPasswordHasherInterface $hasher)
+    {
+        $this->hasher = $hasher;
+    }
+
     public function load(ObjectManager $manager): void
     {
         // $product = new Product();
@@ -44,6 +55,32 @@ class AppFixtures extends Fixture
             ->setWeight(1132)
             ->setImage('/pics/giraffe.jpg');
         $manager->persist($animal);
+
+        $admin = (new Administrator())
+            ->setEmail('admin@iis.com')
+            ->setName('Admin')
+            ->setSurname('Admin')
+            ->setPhone('123456789');
+        $admin->setPassword($this->hasher->hashPassword($admin, 'admin'));
+        $manager->persist($admin);
+
+        $vet = (new Veterinary())
+            ->setEmail('veterinary@iis.com')
+            ->setName('Veterinary')
+            ->setSurname('Veterinary')
+            ->setPhone('123456789');
+        $vet->setPassword($this->hasher->hashPassword($vet, 'veterinary'));
+        $manager->persist($vet);
+
+        $caregiver = (new Caregiver())
+            ->setEmail('caregiver@iis.com')
+            ->setName('Caregiver')
+            ->setSurname('Caregiver')
+            ->setPhone('123456789');
+        $caregiver->setPassword(
+            $this->hasher->hashPassword($caregiver, 'caregiver')
+        );
+        $manager->persist($caregiver);
 
         $manager->flush();
     }
