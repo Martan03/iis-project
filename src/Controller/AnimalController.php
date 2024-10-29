@@ -34,7 +34,7 @@ class AnimalController extends AbstractController
     {
         $animal = $this->ar->findOneBy(['id' => $id]);
         if (!$animal)
-            return $this->createNotFoundException();
+            throw $this->createNotFoundException();
 
         return $this->render('animal/index.html.twig', [
             'animal' => $animal,
@@ -50,7 +50,7 @@ class AnimalController extends AbstractController
         }
 
         if (!$animal)
-            return $this->createNotFoundException();
+            throw $this->createNotFoundException();
 
         $form = $this->createForm(AnimalType::class, $animal);
         $form->handleRequest($request);
