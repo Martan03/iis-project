@@ -12,12 +12,33 @@
             >
         </div>
         <div class="col-md-6">
-            <div>
-            <h2>{{ animal.name }}</h2>
+            <div class="d-flex justify-content-between align-items-center">
+                <h2>{{ animal.name }}</h2>
+                {% if is_granted('ROLE_CARER') %}
+                    <div>
+                        <a
+                            href="{{ path('animal_editor', {
+                                'id': animal.id
+                            }) }}"
+                            class="btn btn-primary"
+                            role="button"
+                        >
+                            Edit
+                        </a>
+                        {{ include('modal.html.twig', {
+                            form: form,
+                            modal_btn: 'Delete',
+                            modal_title: 'Delete this animal?',
+                            modal_desc: 'Are you sure you want to delete it?'
+                        }) }}
+                    </div>
+                {% endif %}
+            </div>
+
             <p>{{ animal.species }} {{ animal.breed }}</p>
             <p class="mb-1">
                 <b>Date of birth:</b>
-                {{ animal.birth ?? 'not known' }}
+                {{ animal.birth ? animal.birth|date('d.m.Y') : 'not known' }}
             </p>
             <p class="mb-1">
                 <b>Gender:</b>
@@ -35,7 +56,6 @@
                 <b>Weight:</b>
                 {{ animal.weight }} kg
             </p>
-            </div>
         </div>
 	</div>
 {% endblock %}

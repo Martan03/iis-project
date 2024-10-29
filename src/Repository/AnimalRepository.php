@@ -16,10 +16,19 @@ class AnimalRepository extends ServiceEntityRepository
         parent::__construct($registry, Animal::class);
     }
 
-    public function save(Animal $animal)
+    public function save(Animal $animal): int
     {
         $em = $this->getEntityManager();
         $em->persist($animal);
+        $em->flush();
+
+        return $animal->getId();
+    }
+
+    public function delete(Animal $animal)
+    {
+        $em = $this->getEntityManager();
+        $em->remove($animal);
         $em->flush();
     }
 

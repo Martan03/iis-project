@@ -27,6 +27,7 @@ class AnimalType extends AbstractType
             ->add('height', NumberType::class)
             ->add('weight', NumberType::class)
             ->add('file', FileType::class, [
+                'required' => false,
                 'attr' => [ 'accept' => 'image/*' ]
             ])
             ->add('submit', SubmitType::class);

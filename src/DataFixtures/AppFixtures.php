@@ -69,7 +69,7 @@ class AppFixtures extends Fixture
             ->setName('Veterinary')
             ->setSurname('Veterinary')
             ->setPhone('123456789');
-        $vet->setPassword($this->hasher->hashPassword($vet, 'veterinary'));
+        $vet->setPassword($this->hasher->hashPassword($vet, ' '));
         $manager->persist($vet);
 
         $caregiver = (new Caregiver())

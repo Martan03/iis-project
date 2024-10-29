@@ -6,6 +6,7 @@ use App\Entity\Animal;
 use App\Form\AnimalType;
 use App\Repository\AnimalRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -36,12 +37,25 @@ class AnimalController extends AbstractController
         if (!$animal)
             throw $this->createNotFoundException();
 
+
+        $form = $this->createFormBuilder()
+            ->setAction($this->generateUrl('animal_del', [
+                'id' => $animal->getId()
+            ]))
+            ->setMethod('DELETE')
+            ->getForm();
+
         return $this->render('animal/index.html.twig', [
             'animal' => $animal,
+            'form' => $form,
         ]);
     }
 
-    #[Route('/admin/animal/{id?}', name: 'animal_editor')]
+    #[Route(
+        '/admin/animal/{id?}',
+        name: 'animal_editor',
+        methods: ['GET', 'POST']
+    )]
     public function editor(Request $request, int|null $id): Response
     {
         $animal = new Animal();
@@ -62,11 +76,20 @@ class AnimalController extends AbstractController
                 $animal->setImage('/pics/' . $filename);
             }
 
-            $this->ar->save($animal);
+            $id = $this->ar->save($animal);
+            return $this->redirectToRoute('animal', ['id' => $id]);
         }
 
         return $this->render('animal/editor.html.twig', [
             'form' => $form,
         ]);
+    }
+
+    #[Route('/admin/animal/del/{id}', name: 'animal_del', methods: ['POST'])]
+    public function delete(int $id): Response
+    {
+        $animal = $this->ar->findOneBy(['id' => $id]);
+        $this->ar->delete($animal);
+        return $this->redirectToRoute('animals');
     }
 }
