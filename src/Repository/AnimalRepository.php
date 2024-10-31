@@ -16,6 +16,18 @@ class AnimalRepository extends ServiceEntityRepository
         parent::__construct($registry, Animal::class);
     }
 
+    public function findAllSearch(string $query): array
+    {
+        return $this->createQueryBuilder('a')
+            ->select('a')
+            ->where('a.name LIKE :query')
+            ->orWhere('a.species LIKE :querySpec')
+            ->setParameter('query', '%' . $query . '%')
+            ->setParameter('querySpec', $query . '%')
+            ->getQuery()
+            ->getResult();
+    }
+
     public function save(Animal $animal): int
     {
         $em = $this->getEntityManager();
@@ -31,29 +43,4 @@ class AnimalRepository extends ServiceEntityRepository
         $em->remove($animal);
         $em->flush();
     }
-
-//    /**
-//     * @return Animal[] Returns an array of Animal objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('a')
-//            ->andWhere('a.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('a.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
-
-//    public function findOneBySomeField($value): ?Animal
-//    {
-//        return $this->createQueryBuilder('a')
-//            ->andWhere('a.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
 }

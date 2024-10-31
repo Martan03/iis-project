@@ -56,6 +56,24 @@
                 <b>Weight:</b>
                 {{ animal.weight }} kg
             </p>
+            <p class="mb-1">
+                <b>Discovery date:</b>
+                {{ animal.discoveryDate|date('d.m.Y') }}
+            </p>
+            <p class="mb-1">
+                <b>Discovery place:</b>
+                {{ animal.discoveryPlace }}
+            </p>
+            {% if animal.handicap %}
+                <p class="mb-1">
+                    <b>Handicap:</b>
+                    {{ animal.handicap }}
+                </p>
+            {% endif %}
+            <p class="mb-1">
+                <b>Castrated:</b>
+                {{ animal.castration ? 'yes' : 'no' }}
+            </p>
         </div>
 	</div>
 {% endblock %}

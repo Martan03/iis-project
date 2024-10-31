@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Entity\Volunteer;
 use App\Form\RegisterType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -28,11 +29,12 @@ class SecurityController extends AbstractController
     #[Route('/register', name: 'register')]
     public function register(Request $request): Response
     {
-        $user = new User();
+        $user = new Volunteer();
         $form = $this->createForm(RegisterType::class, $user);
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            $user->setVerified(false);
             $user->setPassword(
                 $this->hasher->hashPassword($user, $user->getPassword())
             );

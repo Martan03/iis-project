@@ -3,8 +3,7 @@
 If you finish any of the tasks, please remove it from TODO!
 
 ## Entities
-- Finish the entities - currently only user roles and animal
-- Needs to be added: Examination, Request, Walk
+- Tweak user roles (currently can have only one role)
 
 ## Pages
 - Page for registering animal for a walk (when available)
@@ -13,13 +12,10 @@ If you finish any of the tasks, please remove it from TODO!
 (more details in [administration section](#administration))
 - Volunteer walk history page
 
-## Other features
-- Animal search
-
 ### Administration
 - **Administrator**
-    - User managment (idk what is meant by that)
-    - Create cargiver and veterinary
+    - User management (idk what is meant by that)
+    - Create caregiver and veterinary
 - **Caregiver**
     - Create timetable for animal walks
     - Verify voluteers

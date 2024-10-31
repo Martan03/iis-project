@@ -11,7 +11,7 @@
     {% for user in users %}
         <div class="card">
             <div class="card-body">
-                user.email (user.name user.surname)
+                {{ user.email }} ({{ user.name }} {{ user.surname }})
             </div>
         </div>
     {% endfor %}

@@ -70,7 +70,7 @@ class Animal
     #[ORM\Column(length: 255)]
     private ?string $discovery_place = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $handicap = null;
 
     #[ORM\Column]

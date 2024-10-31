@@ -31,7 +31,11 @@ class AppFixtures extends Fixture
             ->setColor('brown')
             ->setHeight(33)
             ->setWeight(8)
-            ->setImage('/pics/dog.jpg');
+            ->setImage('/pics/dog.jpg')
+            ->setDiscoveryDate(new \DateTime('2024-8-28'))
+            ->setDiscoveryPlace('Brno')
+            ->setCastration(false);
+
         $manager->persist($animal);
 
         $animal = (new Animal())
@@ -42,7 +46,10 @@ class AppFixtures extends Fixture
             ->setColor('ginger')
             ->setHeight(26)
             ->setWeight(4)
-            ->setImage('/pics/cat.jpg');
+            ->setImage('/pics/cat.jpg')
+            ->setDiscoveryDate(new \DateTime('2024-6-16'))
+            ->setDiscoveryPlace('Bystřice nad Pernštejnem')
+            ->setCastration(true);
         $manager->persist($animal);
 
         $animal = (new Animal())
@@ -53,7 +60,10 @@ class AppFixtures extends Fixture
             ->setColor('yellow')
             ->setHeight(470)
             ->setWeight(1132)
-            ->setImage('/pics/giraffe.jpg');
+            ->setImage('/pics/giraffe.jpg')
+            ->setDiscoveryDate(new \DateTime('2023-01-28'))
+            ->setDiscoveryPlace('Woods')
+            ->setCastration(false);
         $manager->persist($animal);
 
         $admin = (new Administrator())

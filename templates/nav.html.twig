@@ -36,6 +36,20 @@
                 </li>
             </ul>
 
+            <form
+                class="form-inline my-2 my-lg-0 me-2 d-flex"
+                action="/animals"
+            >
+                <input
+                    class="form-control mr-sm-2"
+                    type="search"
+                    placeholder="Search"
+                    aria-label="Search"
+                    name="query"
+                    value="{{ app.request.query.get('query') }}"
+                >
+            </form>
+
             {% if
                     is_granted('ROLE_ADMIN') or
                     is_granted('ROLE_VET') or

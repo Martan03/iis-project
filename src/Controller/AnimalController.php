@@ -21,9 +21,10 @@ class AnimalController extends AbstractController
     }
 
     #[Route('/animals', name: 'animals')]
-    public function animals(): Response
+    public function animals(Request $request): Response
     {
-        $animals = $this->ar->findAll();
+        $query = $request->query->get('query', '');
+        $animals = $this->ar->findAllSearch($query);
 
         return $this->render('animal/animals.html.twig', [
             'animals' => $animals,
