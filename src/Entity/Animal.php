@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\AnimalRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
@@ -43,6 +45,43 @@ class Animal
     private ?string $image = null;
 
     private ?File $file = null;
+
+    /**
+     * @var Collection<int, Examination>
+     */
+    #[ORM\OneToMany(targetEntity: Examination::class, mappedBy: 'animal', orphanRemoval: true)]
+    private Collection $examinations;
+
+    /**
+     * @var Collection<int, Walk>
+     */
+    #[ORM\OneToMany(targetEntity: Walk::class, mappedBy: 'animal')]
+    private Collection $walks;
+
+    /**
+     * @var Collection<int, Request>
+     */
+    #[ORM\OneToMany(targetEntity: Request::class, mappedBy: 'animal')]
+    private Collection $requests;
+
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    private ?\DateTimeInterface $discovery_date = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $discovery_place = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $handicap = null;
+
+    #[ORM\Column]
+    private ?bool $castration = null;
+
+    public function __construct()
+    {
+        $this->examinations = new ArrayCollection();
+        $this->walks = new ArrayCollection();
+        $this->requests = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -165,6 +204,144 @@ class Animal
     public function setFile(?File $file = null): self
     {
         $this->file = $file;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Examination>
+     */
+    public function getExaminations(): Collection
+    {
+        return $this->examinations;
+    }
+
+    public function addExamination(Examination $examination): static
+    {
+        if (!$this->examinations->contains($examination)) {
+            $this->examinations->add($examination);
+            $examination->setAnimal($this);
+        }
+
+        return $this;
+    }
+
+    public function removeExamination(Examination $examination): static
+    {
+        if ($this->examinations->removeElement($examination)) {
+            // set the owning side to null (unless already changed)
+            if ($examination->getAnimal() === $this) {
+                $examination->setAnimal(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Walk>
+     */
+    public function getWalks(): Collection
+    {
+        return $this->walks;
+    }
+
+    public function addWalk(Walk $walk): static
+    {
+        if (!$this->walks->contains($walk)) {
+            $this->walks->add($walk);
+            $walk->setAnimal($this);
+        }
+
+        return $this;
+    }
+
+    public function removeWalk(Walk $walk): static
+    {
+        if ($this->walks->removeElement($walk)) {
+            // set the owning side to null (unless already changed)
+            if ($walk->getAnimal() === $this) {
+                $walk->setAnimal(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Request>
+     */
+    public function getRequests(): Collection
+    {
+        return $this->requests;
+    }
+
+    public function addRequest(Request $request): static
+    {
+        if (!$this->requests->contains($request)) {
+            $this->requests->add($request);
+            $request->setAnimal($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRequest(Request $request): static
+    {
+        if ($this->requests->removeElement($request)) {
+            // set the owning side to null (unless already changed)
+            if ($request->getAnimal() === $this) {
+                $request->setAnimal(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getDiscoveryDate(): ?\DateTimeInterface
+    {
+        return $this->discovery_date;
+    }
+
+    public function setDiscoveryDate(\DateTimeInterface $discovery_date): static
+    {
+        $this->discovery_date = $discovery_date;
+
+        return $this;
+    }
+
+    public function getDiscoveryPlace(): ?string
+    {
+        return $this->discovery_place;
+    }
+
+    public function setDiscoveryPlace(string $discovery_place): static
+    {
+        $this->discovery_place = $discovery_place;
+
+        return $this;
+    }
+
+    public function getHandicap(): ?string
+    {
+        return $this->handicap;
+    }
+
+    public function setHandicap(string $handicap): static
+    {
+        $this->handicap = $handicap;
+
+        return $this;
+    }
+
+    public function isCastration(): ?bool
+    {
+        return $this->castration;
+    }
+
+    public function setCastration(bool $castration): static
+    {
+        $this->castration = $castration;
 
         return $this;
     }
