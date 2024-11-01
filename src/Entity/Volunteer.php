@@ -10,30 +10,18 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: VolunteerRepository::class)]
 class Volunteer extends User
 {
-    #[ORM\Column]
-    private ?bool $verified = null;
-
     /**
      * @var Collection<int, Registration>
      */
     #[ORM\OneToMany(targetEntity: Registration::class, mappedBy: 'volunteer')]
     private Collection $registrations;
 
+    #[ORM\Column(nullable: true)]
+    private ?bool $verified = null;
+
     public function __construct()
     {
         $this->registrations = new ArrayCollection();
-    }
-
-    public function isVerified(): ?bool
-    {
-        return $this->verified;
-    }
-
-    public function setVerified(bool $verified): static
-    {
-        $this->verified = $verified;
-
-        return $this;
     }
 
     /**
@@ -62,6 +50,18 @@ class Volunteer extends User
                 $registration->setVolunteer(null);
             }
         }
+
+        return $this;
+    }
+
+    public function isVerified(): ?bool
+    {
+        return $this->verified;
+    }
+
+    public function setVerified(?bool $verified): static
+    {
+        $this->verified = $verified;
 
         return $this;
     }

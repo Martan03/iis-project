@@ -5,14 +5,9 @@
 {% block body %}
     <h1>Administration</h1>
 
-    {% if users is empty %}
-        <p>No volunteers to be verified found...</p>
+    {% if is_granted('ROLE_CARER') %}
+        {% include '/admin/caregiver/menu.html.twig' %}
+    {% else %}
+        <p>Not implemented yet...</p>
     {% endif %}
-    {% for user in users %}
-        <div class="card">
-            <div class="card-body">
-                {{ user.email }} ({{ user.name }} {{ user.surname }})
-            </div>
-        </div>
-    {% endfor %}
 {% endblock %}

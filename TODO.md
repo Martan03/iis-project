@@ -18,7 +18,6 @@ If you finish any of the tasks, please remove it from TODO!
     - Create caregiver and veterinary
 - **Caregiver**
     - Create timetable for animal walks
-    - Verify voluteers
     - Approve animal walk registration
     - Create request on veterinary
 - **Veterinary**

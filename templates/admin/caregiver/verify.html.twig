@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Administration{% endblock %}
+
+{% block body %}
+    <h1>Verify volunteers</h1>
+
+    <div class="mb-2">
+        {% set bg =
+            filterVal is same as(false) ? 'bg-primary' : 'bg-secondary' %}
+        <a
+            href="{{ path('admin_verify', { 'filter': 'to-verify' }) }}"
+            class="badge rounded-pill {{ bg }}"
+            style="color: #fff; text-decoration: none;"
+        >
+            To verify
+        </a>
+        {% set bg = filterVal == true ? 'bg-primary' : 'bg-secondary' %}
+        <a
+            href="{{ path('admin_verify', { 'filter': 'verified' }) }}"
+            class="badge rounded-pill {{ bg }}"
+            style="color: #fff; text-decoration: none;"
+        >
+            Verified
+        </a>
+        {% set bg = filterVal is null ? 'bg-primary' : 'bg-secondary' %}
+        <a
+            href="{{ path('admin_verify', { 'filter': 'denied' }) }}"
+            class="badge rounded-pill {{ bg }}"
+            style="color: #fff; text-decoration: none;"
+        >
+            Denied
+        </a>
+    </div>
+
+    {% if users is empty %}
+        <p>No volunteers found...</p>
+    {% endif %}
+    {% for user in users %}
+        <a
+            href="{{ path('admin_verify_detail', { 'id': user.id }) }}"
+            class="card text-decoration-none text-reset"
+        >
+            <div class="card-body">
+                {{ user.name }} {{ user.surname }} ({{ user.email }} )
+            </div>
+        </a>
+    {% endfor %}
+{% endblock %}
