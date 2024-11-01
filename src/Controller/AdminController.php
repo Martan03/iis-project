@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\Form\RequestType;
+use App\Repository\RequestRepository;
 use App\Repository\VolunteerRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -12,13 +14,9 @@ use Symfony\Component\Routing\Attribute\Route;
 class AdminController extends AbstractController
 {
     #[Route('/admin', name: 'admin')]
-    public function index(VolunteerRepository $vr): Response
+    public function index(): Response
     {
-        $users = $vr->findBy(['verified' => false]);
-
-        return $this->render('admin/index.html.twig', [
-            'users' => $users,
-        ]);
+        return $this->render('admin/index.html.twig');
     }
 
     #[Route('/admin/verify', name: 'admin_verify')]

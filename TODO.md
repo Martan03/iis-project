@@ -19,7 +19,6 @@ If you finish any of the tasks, please remove it from TODO!
 - **Caregiver**
     - Create timetable for animal walks
     - Approve animal walk registration
-    - Create request on veterinary
 - **Veterinary**
     - Create/edit animal examination (based on caregiver request)
     - Manage animal health state

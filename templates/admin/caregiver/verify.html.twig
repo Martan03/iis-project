@@ -9,7 +9,7 @@
         {% set bg =
             filterVal is same as(false) ? 'bg-primary' : 'bg-secondary' %}
         <a
-            href="{{ path('admin_verify', { 'filter': 'to-verify' }) }}"
+            href="{{ path('admin_verify') }}"
             class="badge rounded-pill {{ bg }}"
             style="color: #fff; text-decoration: none;"
         >

@@ -16,28 +16,41 @@ class RequestRepository extends ServiceEntityRepository
         parent::__construct($registry, Request::class);
     }
 
-    //    /**
-    //     * @return Request[] Returns an array of Request objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('r')
-    //            ->andWhere('r.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('r.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
+    public function findAllWaiting(): array
+    {
+        return $this->createQueryBuilder('r')
+            ->select('r')
+            ->where('r.examination IS NULL')
+            ->getQuery()
+            ->getResult();
+    }
 
-    //    public function findOneBySomeField($value): ?Request
-    //    {
-    //        return $this->createQueryBuilder('r')
-    //            ->andWhere('r.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
+    public function findAllScheduled(): array
+    {
+        return $this->createQueryBuilder('r')
+            ->select('r')
+            ->where('r.examination IS NOT NULL')
+            ->andWhere('r.date_fulfilled IS NULL')
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findAllDone(): array
+    {
+        return $this->createQueryBuilder('r')
+            ->select('r')
+            ->where('r.examination IS NOT NULL')
+            ->andWhere('r.date_fulfilled IS NOT NULL')
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function save(Request $request): int
+    {
+        $em = $this->getEntityManager();
+        $em->persist($request);
+        $em->flush();
+
+        return $request->getId();
+    }
 }

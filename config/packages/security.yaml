@@ -38,6 +38,8 @@ security:
     # Note: Only the *first* access control that matches will be used
     access_control:
         - { path: ^/admin/animal, roles: ROLE_CARER }
+        - { path: ^/admin/verify, roles: ROLE_CARER }
+        - { path: ^/admin/verify/*, roles: ROLE_CARER }
         # - { path: ^/admin, roles: ROLE_ADMIN }
         # - { path: ^/profile, roles: ROLE_USER }
 

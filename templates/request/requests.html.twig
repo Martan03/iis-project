@@ -1,0 +1,63 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Administration{% endblock %}
+
+{% block body %}
+    <div class="d-flex justify-content-between align-items-center">
+	    <h1>Requests</h1>
+
+        <a
+            href="{{ path('request_editor') }}"
+            class="btn btn-primary"
+            role="button"
+        >
+            +
+        </a>
+    </div>
+
+    <div class="mb-2">
+        {% set bg = filt != 'done' and filt != 'scheduled' ?
+            'bg-primary' : 'bg-secondary' %}
+        <a
+            href="{{ path('requests') }}"
+            class="badge rounded-pill {{ bg }}"
+            style="color: #fff; text-decoration: none;"
+        >
+            Waiting
+        </a>
+        {% set bg = filt == 'scheduled' ? 'bg-primary' : 'bg-secondary' %}
+        <a
+            href="{{ path('requests', { 'filter': 'scheduled' }) }}"
+            class="badge rounded-pill {{ bg }}"
+            style="color: #fff; text-decoration: none;"
+        >
+            Scheduled
+        </a>
+        {% set bg = filt == 'done' ? 'bg-primary' : 'bg-secondary' %}
+        <a
+            href="{{ path('requests', { 'filter': 'done' }) }}"
+            class="badge rounded-pill {{ bg }}"
+            style="color: #fff; text-decoration: none;"
+        >
+            Done
+        </a>
+    </div>
+
+    {% if requests is empty %}
+        <p>No requests found...</p>
+    {% endif %}
+    {% for request in requests %}
+        <a
+            href="{{ path('request', { id: request.id }) }}"
+            class="card text-decoration-none text-reset"
+        >
+            <div class="card-body">
+                <p>
+                    {{ request.animal.name }}
+                    ({{ request.animal.species }} {{ request.animal.breed }})
+                </p>
+                <i>{{ request.description }}</i>
+            </div>
+        </a>
+    {% endfor %}
+{% endblock %}
