@@ -27,15 +27,15 @@ class Request
     private ?Examination $examination = null;
 
     #[ORM\ManyToOne(inversedBy: 'requests')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Veterinary $veterinary = null;
+    private ?Animal $animal = null;
 
     #[ORM\ManyToOne(inversedBy: 'requests')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Caregiver $caregiver = null;
 
     #[ORM\ManyToOne(inversedBy: 'requests')]
-    private ?Animal $animal = null;
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Veterinary $veterinary = null;
 
     public function getId(): ?int
     {
@@ -90,14 +90,14 @@ class Request
         return $this;
     }
 
-    public function getVeterinary(): ?Veterinary
+    public function getAnimal(): ?Animal
     {
-        return $this->veterinary;
+        return $this->animal;
     }
 
-    public function setVeterinary(?Veterinary $veterinary): static
+    public function setAnimal(?Animal $animal): static
     {
-        $this->veterinary = $veterinary;
+        $this->animal = $animal;
 
         return $this;
     }
@@ -114,14 +114,14 @@ class Request
         return $this;
     }
 
-    public function getAnimal(): ?Animal
+    public function getVeterinary(): ?Veterinary
     {
-        return $this->animal;
+        return $this->veterinary;
     }
 
-    public function setAnimal(?Animal $animal): static
+    public function setVeterinary(?Veterinary $veterinary): static
     {
-        $this->animal = $animal;
+        $this->veterinary = $veterinary;
 
         return $this;
     }

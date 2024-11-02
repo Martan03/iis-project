@@ -36,6 +36,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255)]
     private ?string $phone = null;
 
+    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
+    private ?Administrator $administrator = null;
+
+    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
+    private ?Veterinary $veterinary = null;
+
+    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
+    private ?Caregiver $caregiver = null;
+
+    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
+    private ?Volunteer $volunteer = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -70,16 +82,20 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     public function getRoles(): array
     {
-        if ($this instanceof Administrator) {
-            return ['ROLE_ADMIN'];
-        } elseif ($this instanceof Volunteer) {
-            return ['ROLE_VOL'];
-        } elseif ($this instanceof Veterinary) {
-            return ['ROLE_VET'];
-        } else if ($this instanceof Caregiver) {
-            return ['ROLE_CARER'];
+        $roles = ['ROLE_USER'];
+        if ($this->getAdministrator() !== null) {
+            $roles[] = 'ROLE_ADMIN';
         }
-        return ['ROLE_USER'];
+        if ($this->getVeterinary() !== null) {
+            $roles[] = 'ROLE_VET';
+        }
+        if ($this->getCaregiver() !== null) {
+            $roles[] = 'ROLE_CARER';
+        }
+        if ($this->getVolunteer() !== null) {
+            $roles[] = 'ROLE_VOL';
+        }
+        return $roles;
     }
 
     /**
@@ -138,6 +154,54 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setPhone(string $phone): static
     {
         $this->phone = $phone;
+
+        return $this;
+    }
+
+    public function getAdministrator(): ?Administrator
+    {
+        return $this->administrator;
+    }
+
+    public function setAdministrator(?Administrator $administrator): static
+    {
+        $this->administrator = $administrator;
+
+        return $this;
+    }
+
+    public function getVeterinary(): ?Veterinary
+    {
+        return $this->veterinary;
+    }
+
+    public function setVeterinary(?Veterinary $veterinary): static
+    {
+        $this->veterinary = $veterinary;
+
+        return $this;
+    }
+
+    public function getCaregiver(): ?Caregiver
+    {
+        return $this->caregiver;
+    }
+
+    public function setCaregiver(?Caregiver $caregiver): static
+    {
+        $this->caregiver = $caregiver;
+
+        return $this;
+    }
+
+    public function getVolunteer(): ?Volunteer
+    {
+        return $this->volunteer;
+    }
+
+    public function setVolunteer(?Volunteer $volunteer): static
+    {
+        $this->volunteer = $volunteer;
 
         return $this;
     }

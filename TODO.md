@@ -2,9 +2,6 @@
 
 If you finish any of the tasks, please remove it from TODO!
 
-## Entities
-- Tweak user roles (currently can have only one role)
-
 ## Pages
 - Page for registering animal for a walk (when available)
     - Probably on animal detail page using timetable

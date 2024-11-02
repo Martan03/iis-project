@@ -29,12 +29,12 @@ class SecurityController extends AbstractController
     #[Route('/register', name: 'register')]
     public function register(Request $request): Response
     {
-        $user = new Volunteer();
+        $user = new User();
         $form = $this->createForm(RegisterType::class, $user);
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $user->setVerified(false);
+            $user->setVolunteer((new Volunteer)->setVerified(false));
             $user->setPassword(
                 $this->hasher->hashPassword($user, $user->getPassword())
             );

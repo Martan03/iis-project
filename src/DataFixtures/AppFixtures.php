@@ -5,6 +5,7 @@ namespace App\DataFixtures;
 use App\Entity\Administrator;
 use App\Entity\Animal;
 use App\Entity\Caregiver;
+use App\Entity\User;
 use App\Entity\Veterinary;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
@@ -66,31 +67,45 @@ class AppFixtures extends Fixture
             ->setCastration(false);
         $manager->persist($animal);
 
-        $admin = (new Administrator())
+        $admin = (new User())
             ->setEmail('admin@iis.com')
             ->setName('Admin')
             ->setSurname('Admin')
-            ->setPhone('123456789');
+            ->setPhone('123456789')
+            ->setAdministrator(new Administrator());
         $admin->setPassword($this->hasher->hashPassword($admin, 'admin'));
         $manager->persist($admin);
 
-        $vet = (new Veterinary())
+        $vet = (new User())
             ->setEmail('veterinary@iis.com')
             ->setName('Veterinary')
             ->setSurname('Veterinary')
-            ->setPhone('123456789');
-        $vet->setPassword($this->hasher->hashPassword($vet, ' '));
+            ->setPhone('123456789')
+            ->setVeterinary(new Veterinary());
+        $vet->setPassword($this->hasher->hashPassword($vet, 'veterinary'));
         $manager->persist($vet);
 
-        $caregiver = (new Caregiver())
+        $caregiver = (new User())
             ->setEmail('caregiver@iis.com')
             ->setName('Caregiver')
             ->setSurname('Caregiver')
-            ->setPhone('123456789');
+            ->setPhone('123456789')
+            ->setCaregiver(new Caregiver());
         $caregiver->setPassword(
             $this->hasher->hashPassword($caregiver, 'caregiver')
         );
         $manager->persist($caregiver);
+
+        $super = (new User())
+            ->setEmail('super@iis.com')
+            ->setName('Super')
+            ->setSurname('User')
+            ->setPhone('314159265')
+            ->setAdministrator(new Administrator())
+            ->setVeterinary(new Veterinary())
+            ->setCaregiver(new Caregiver());
+        $super->setPassword($this->hasher->hashPassword($super, 'super'));
+        $manager->persist($super);
 
         $manager->flush();
     }

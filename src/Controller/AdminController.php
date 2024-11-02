@@ -113,7 +113,7 @@ class AdminController extends AbstractController
     }
 
     #[Route('/admin/verify', name: 'admin_verify')]
-    public function verify(Request $request, VolunteerRepository $vr): Response
+    public function verify(Request $request): Response
     {
         $filter = $request->query->get('filter', 'to-verify');
         $filterVal = match ($filter) {
@@ -122,7 +122,8 @@ class AdminController extends AbstractController
             'denied' => null,
             default => false,
         };
-        $users = $vr->findBy(['verified' => $filterVal]);
+        $users = $this->vr->findBy(['verified' => $filterVal]);
+        dd($users);
 
         return $this->render('admin/caregiver/verify.html.twig', [
             'users' => $users,

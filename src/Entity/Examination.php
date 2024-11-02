@@ -24,12 +24,12 @@ class Examination
     #[ORM\JoinColumn(nullable: false)]
     private ?Animal $animal = null;
 
+    #[ORM\OneToOne(mappedBy: 'examination', cascade: ['persist', 'remove'])]
+    private ?Request $request = null;
+
     #[ORM\ManyToOne(inversedBy: 'examinations')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Veterinary $veterinary = null;
-
-    #[ORM\OneToOne(mappedBy: 'examination', cascade: ['persist', 'remove'])]
-    private ?Request $request = null;
 
     public function getId(): ?int
     {
@@ -72,18 +72,6 @@ class Examination
         return $this;
     }
 
-    public function getVeterinary(): ?Veterinary
-    {
-        return $this->veterinary;
-    }
-
-    public function setVeterinary(?Veterinary $veterinary): static
-    {
-        $this->veterinary = $veterinary;
-
-        return $this;
-    }
-
     public function getRequest(): ?Request
     {
         return $this->request;
@@ -102,6 +90,18 @@ class Examination
         }
 
         $this->request = $request;
+
+        return $this;
+    }
+
+    public function getVeterinary(): ?Veterinary
+    {
+        return $this->veterinary;
+    }
+
+    public function setVeterinary(?Veterinary $veterinary): static
+    {
+        $this->veterinary = $veterinary;
 
         return $this;
     }

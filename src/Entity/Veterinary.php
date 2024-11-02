@@ -8,8 +8,13 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: VeterinaryRepository::class)]
-class Veterinary extends User
+class Veterinary
 {
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column]
+    private ?int $id = null;
+
     /**
      * @var Collection<int, Examination>
      */
@@ -26,6 +31,11 @@ class Veterinary extends User
     {
         $this->examinations = new ArrayCollection();
         $this->requests = new ArrayCollection();
+    }
+
+    public function getId(): ?int
+    {
+        return $this->id;
     }
 
     /**

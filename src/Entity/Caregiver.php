@@ -8,8 +8,13 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: CaregiverRepository::class)]
-class Caregiver extends User
+class Caregiver
 {
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column]
+    private ?int $id = null;
+
     /**
      * @var Collection<int, Request>
      */
@@ -19,6 +24,11 @@ class Caregiver extends User
     public function __construct()
     {
         $this->requests = new ArrayCollection();
+    }
+
+    public function getId(): ?int
+    {
+        return $this->id;
     }
 
     /**

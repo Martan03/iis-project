@@ -6,3 +6,4 @@
 - Verify voluteers
 - Create request on veterinary
 - Admin can see users
+- Tweak user roles (currently can have only one role)
