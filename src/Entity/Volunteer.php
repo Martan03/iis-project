@@ -24,6 +24,9 @@ class Volunteer
     #[ORM\OneToMany(targetEntity: Registration::class, mappedBy: 'volunteer')]
     private Collection $registrations;
 
+    #[ORM\OneToOne(mappedBy: 'volunteer', cascade: ['persist', 'remove'])]
+    private ?User $user = null;
+
     public function __construct()
     {
         $this->registrations = new ArrayCollection();
@@ -72,6 +75,28 @@ class Volunteer
                 $registration->setVolunteer(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): static
+    {
+        // unset the owning side of the relation if necessary
+        if ($user === null && $this->user !== null) {
+            $this->user->setVolunteer(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($user !== null && $user->getVolunteer() !== $this) {
+            $user->setVolunteer($this);
+        }
+
+        $this->user = $user;
 
         return $this;
     }

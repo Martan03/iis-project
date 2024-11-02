@@ -33,17 +33,32 @@
         </a>
     </div>
 
-    {% if users is empty %}
+    {% if vols is empty %}
         <p>No volunteers found...</p>
+    {% else %}
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Name</th>
+                    <th scope="col">Surname</th>
+                    <th scope="col">Email</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for vol in vols %}
+                    {% set verifyUrl = path('admin_verify_detail', {
+                        'id': vol.user.id
+                    }) %}
+                    <tr
+                        style="cursor: pointer"
+                        onclick="location.href = '{{ verifyUrl }}'"
+                    >
+                        <td class="align-middle">{{ vol.user.name }}</td>
+                        <td class="align-middle">{{ vol.user.surname }}</td>
+                        <td class="align-middle">{{ vol.user.email }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
     {% endif %}
-    {% for user in users %}
-        <a
-            href="{{ path('admin_verify_detail', { 'id': user.id }) }}"
-            class="card text-decoration-none text-reset"
-        >
-            <div class="card-body">
-                {{ user.name }} {{ user.surname }} ({{ user.email }} )
-            </div>
-        </a>
-    {% endfor %}
 {% endblock %}

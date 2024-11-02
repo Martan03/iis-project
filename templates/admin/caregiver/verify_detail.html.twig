@@ -7,7 +7,8 @@
 
     <div class="d-flex gap-1 mb-3">
         {{ form_start(verifyForm) }}
-            {% set bg = user.verified ? 'bg-primary' : 'bg-secondary' %}
+            {% set bg
+                = user.volunteer.verified ? 'bg-primary' : 'bg-secondary' %}
             {{ form_widget(verifyForm.verify, {
                 'attr': {
                     'class': 'btn badge rounded-pill ' ~ bg,
@@ -17,7 +18,7 @@
         {{ form_end(verifyForm) }}
 
         {{ form_start(toVerifyForm) }}
-            {% set bg = user.verified is same as(false) ?
+            {% set bg = user.volunteer.verified is same as(false) ?
                 'bg-primary' : 'bg-secondary' %}
             {{ form_widget(toVerifyForm.to_verify, {
                 'attr': {
@@ -28,9 +29,8 @@
         {{ form_end(toVerifyForm) }}
 
         {{ form_start(denyForm) }}
-            {% set bg =
-                user.verified is null ? 'bg-primary' : 'bg-secondary' %}
-
+            {% set bg = user.volunteer.verified is null ?
+                'bg-primary' : 'bg-secondary' %}
             {{ form_widget(denyForm.deny, {
                 'attr': {
                     'class': 'btn badge rounded-pill ' ~ bg,
@@ -40,8 +40,6 @@
         {{ form_end(denyForm) }}
     </div>
 
-    <p>{{ user.email }}</p>
-    <p class="mb-1">
-        <b>Phone:</b> {{ user.phone }}
-    </p>
+    <p class="mb-1"><b>Email:</b> {{ user.email }}</p>
+    <p class="mb-1"><b>Phone:</b> {{ user.phone }}</p>
 {% endblock %}

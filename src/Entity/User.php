@@ -36,16 +36,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255)]
     private ?string $phone = null;
 
-    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
+    #[ORM\OneToOne(inversedBy: 'user', cascade: ['persist', 'remove'])]
     private ?Administrator $administrator = null;
 
-    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
+    #[ORM\OneToOne(inversedBy: 'user', cascade: ['persist', 'remove'])]
     private ?Veterinary $veterinary = null;
 
-    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
+    #[ORM\OneToOne(inversedBy: 'user', cascade: ['persist', 'remove'])]
     private ?Caregiver $caregiver = null;
 
-    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
+    #[ORM\OneToOne(inversedBy: 'user', cascade: ['persist', 'remove'])]
     private ?Volunteer $volunteer = null;
 
     public function getId(): ?int
@@ -202,6 +202,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setVolunteer(?Volunteer $volunteer): static
     {
         $this->volunteer = $volunteer;
+
+        return $this;
+    }
+
+    public function setVerified(?bool $verified): static {
+        if (isset($this->volunteer)) {
+            $this->volunteer = $this->volunteer->setVerified($verified);
+        }
 
         return $this;
     }

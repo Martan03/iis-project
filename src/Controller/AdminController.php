@@ -18,23 +18,14 @@ use Symfony\Component\Routing\Attribute\Route;
 class AdminController extends AbstractController
 {
     private UserRepository $ur;
-    private AdministratorRepository $ar;
-    private CaregiverRepository $cr;
-    private VeterinaryRepository $vetr;
     private VolunteerRepository $vr;
 
     public function __construct(
         UserRepository $ur,
-        AdministratorRepository $ar,
-        CaregiverRepository $cr,
-        VeterinaryRepository $vetr,
         VolunteerRepository $vr,
     )
     {
         $this->ur = $ur;
-        $this->ar = $ar;
-        $this->cr = $cr;
-        $this->vetr = $vetr;
         $this->vr = $vr;
     }
 
@@ -95,10 +86,10 @@ class AdminController extends AbstractController
 
         $user = $this->ur->findOneBy(['id' => $id]);
 
-        $is_admin = !is_null($this->ar->findOneBy(['id' => $id]));
-        $is_caregiver = !is_null($this->cr->findOneBy(['id' => $id]));
-        $is_veterinary = !is_null($this->vetr->findOneBy(['id' => $id]));
-        $is_volunteer = !is_null($this->vr->findOneBy(['id' => $id]));
+        $is_admin = !is_null($user->getAdministrator());
+        $is_caregiver = !is_null($user->getCaregiver());
+        $is_veterinary = !is_null($user->getVeterinary());
+        $is_volunteer = !is_null($user->getVolunteer());
 
         return $this->render('admin/user.html.twig', [
             'user' => $user,
@@ -123,22 +114,17 @@ class AdminController extends AbstractController
             default => false,
         };
         $users = $this->vr->findBy(['verified' => $filterVal]);
-        dd($users);
 
         return $this->render('admin/caregiver/verify.html.twig', [
-            'users' => $users,
+            'vols' => $users,
             'filterVal' => $filterVal,
         ]);
     }
 
     #[Route('/admin/verify/{id}', name: 'admin_verify_detail')]
-    public function verify_detail(
-        Request $request,
-        VolunteerRepository $vr,
-        int $id
-    ): Response
+    public function verify_detail(Request $request, int $id): Response
     {
-        $user = $vr->findOneBy(['id' => $id]);
+        $user = $this->ur->findOneBy(['id' => $id]);
         if (!$user) {
             return $this->redirectToRoute('admin_verify');
         }
@@ -149,7 +135,7 @@ class AdminController extends AbstractController
         $verifyForm->handleRequest($request);
         if ($verifyForm->isSubmitted() && $verifyForm->isValid()) {
             $user->setVerified(true);
-            $vr->save($user);
+            $this->ur->save($user);
             return $this->redirectToRoute('admin_verify');
         }
 
@@ -159,7 +145,7 @@ class AdminController extends AbstractController
         $toVerifyForm->handleRequest($request);
         if ($toVerifyForm->isSubmitted() && $toVerifyForm->isValid()) {
             $user->setVerified(false);
-            $vr->save($user);
+            $this->ur->save($user);
             return $this->redirectToRoute('admin_verify');
         }
 
@@ -169,7 +155,7 @@ class AdminController extends AbstractController
         $denyForm->handleRequest($request);
         if ($denyForm->isSubmitted() && $denyForm->isValid()) {
             $user->setVerified(null);
-            $vr->save($user);
+            $this->ur->save($user);
             return $this->redirectToRoute('admin_verify');
         }
 

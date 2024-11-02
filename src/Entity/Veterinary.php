@@ -27,6 +27,9 @@ class Veterinary
     #[ORM\OneToMany(targetEntity: Request::class, mappedBy: 'veterinary')]
     private Collection $requests;
 
+    #[ORM\OneToOne(mappedBy: 'veterinary', cascade: ['persist', 'remove'])]
+    private ?User $user = null;
+
     public function __construct()
     {
         $this->examinations = new ArrayCollection();
@@ -94,6 +97,28 @@ class Veterinary
                 $request->setVeterinary(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): static
+    {
+        // unset the owning side of the relation if necessary
+        if ($user === null && $this->user !== null) {
+            $this->user->setVeterinary(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($user !== null && $user->getVeterinary() !== $this) {
+            $user->setVeterinary($this);
+        }
+
+        $this->user = $user;
 
         return $this;
     }
