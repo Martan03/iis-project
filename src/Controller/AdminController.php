@@ -2,10 +2,15 @@
 
 namespace App\Controller;
 
+use App\Repository\AdministratorRepository;
+use App\Repository\CaregiverRepository;
 use App\Repository\UserRepository;
+use App\Repository\VeterinaryRepository;
 use App\Repository\VolunteerRepository;
+use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -13,10 +18,30 @@ use Symfony\Component\Routing\Attribute\Route;
 class AdminController extends AbstractController
 {
     private UserRepository $ur;
+    private AdministratorRepository $ar;
+    private CaregiverRepository $cr;
+    private VeterinaryRepository $vetr;
+    private VolunteerRepository $vr;
 
-    public function __construct(UserRepository $ur)
+    public function __construct(
+        UserRepository $ur,
+        AdministratorRepository $ar,
+        CaregiverRepository $cr,
+        VeterinaryRepository $vetr,
+        VolunteerRepository $vr,
+    )
     {
         $this->ur = $ur;
+        $this->ar = $ar;
+        $this->cr = $cr;
+        $this->vetr = $vetr;
+        $this->vr = $vr;
+    }
+
+    #[Route('/admin', name: 'admin')]
+    public function index(): Response
+    {
+        return $this->render('admin/index.html.twig');
     }
 
     #[Route('/admin/users', name: 'admin_users')]
@@ -31,10 +56,60 @@ class AdminController extends AbstractController
         ]);
     }
 
-    #[Route('/admin', name: 'admin')]
-    public function index(): Response
+    #[Route('/admin/user/{id}', name: 'admin_user')]
+    public function user(int $id, Request $request): Response
     {
-        return $this->render('admin/index.html.twig');
+        switch ($request->query->get('act', '')) {
+            case '':
+                break;
+            case 'r_Admin':
+                // TODO: remove admin
+                break;
+            case 'a_Admin':
+                // TODO: add admin
+                break;
+            case 'r_Caregiver':
+                // TODO: remove cargiver
+                break;
+            case 'a_Caregiver':
+                // TODO: add caregiver
+                break;
+            case 'r_Veterinary':
+                // TODO: remove veterinary
+                break;
+            case 'a_Veterinary':
+                // TODO: add veterinary
+                break;
+            case 'r_Volunteer':
+                // TODO: remove volunteer
+                break;
+            case 'a_Volunteer':
+                // TODO: add volunteer
+                break;
+            case 'delete':
+                // TODO: delete user
+                return new RedirectResponse($this->generateUrl('admin_users'));
+            default:
+                throw new Exception("Invalid action on user.");
+        }
+
+        $user = $this->ur->findOneBy(['id' => $id]);
+
+        $is_admin = !is_null($this->ar->findOneBy(['id' => $id]));
+        $is_caregiver = !is_null($this->cr->findOneBy(['id' => $id]));
+        $is_veterinary = !is_null($this->vetr->findOneBy(['id' => $id]));
+        $is_volunteer = !is_null($this->vr->findOneBy(['id' => $id]));
+
+        return $this->render('admin/user.html.twig', [
+            'user' => $user,
+            'search_in' => '/admin/users',
+            'roles' => [
+                [ 'name' => 'Admin', 'is' => $is_admin ],
+                [ 'name' => 'Caregiver', 'is' => $is_caregiver ],
+                [ 'name' => 'Veterinary', 'is' => $is_veterinary ],
+                [ 'name' => 'Volunteer', 'is' => $is_volunteer ],
+            ],
+        ]);
     }
 
     #[Route('/admin/verify', name: 'admin_verify')]

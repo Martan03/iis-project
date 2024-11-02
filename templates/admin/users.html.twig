@@ -5,25 +5,25 @@
 {% block body %}
     <h1>Users</h1>
 
-    {% if is_granted('ROLE_CARER') %}
-        {% include '/admin/caregiver/menu.html.twig' %}
-    {% else %}
+    {% if is_granted('ROLE_ADMIN') %}
         <table class="table">
             <thead>
                 <tr>
                     <th scope="col">Name</th>
                     <th scope="col">Surname</th>
                     <th scope="col">Email</th>
-                    <th scope="col">Role</th>
+                    <th scope="col"></th>
                 </tr>
             </thead>
             <tbody>
             {% for user in users %}
                 <tr>
-                    <td>{{ user.name }}</td>
-                    <td>{{ user.surname }}</td>
-                    <td>{{ user.email }}</td>
-                    <td>TODO</td>
+                    <td class="align-middle">{{ user.name }}</td>
+                    <td class="align-middle">{{ user.surname }}</td>
+                    <td class="align-middle">{{ user.email }}</td>
+                    <td><a href="{{ path('admin_user', {'id': user.id }) }}"
+                        class="btn btn-primary"
+                    >Manage</a></td>
                 </tr>
             {% endfor %}
             </tbody>
