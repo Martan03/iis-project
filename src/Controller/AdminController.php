@@ -2,8 +2,7 @@
 
 namespace App\Controller;
 
-use App\Form\RequestType;
-use App\Repository\RequestRepository;
+use App\Repository\UserRepository;
 use App\Repository\VolunteerRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -13,6 +12,25 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class AdminController extends AbstractController
 {
+    private UserRepository $ur;
+
+    public function __construct(UserRepository $ur)
+    {
+        $this->ur = $ur;
+    }
+
+    #[Route('/admin/users', name: 'admin_users')]
+    public function users(Request $request): Response
+    {
+        $query = $request->query->get('query', '');
+        $users = $this->ur->findAllSearch($query);
+
+        return $this->render('admin/users.html.twig', [
+            'users' => $users,
+            'search_in' => '/admin/users',
+        ]);
+    }
+
     #[Route('/admin', name: 'admin')]
     public function index(): Response
     {

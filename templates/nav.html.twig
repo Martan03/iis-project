@@ -38,7 +38,7 @@
 
             <form
                 class="form-inline my-2 my-lg-0 me-2 d-flex"
-                action="/animals"
+                action="{{ search_in|default('/animals') }}"
             >
                 <input
                     class="form-control mr-sm-2"

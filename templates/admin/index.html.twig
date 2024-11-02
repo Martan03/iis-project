@@ -8,6 +8,9 @@
     {% if is_granted('ROLE_CARER') %}
         {% include '/admin/caregiver/menu.html.twig' %}
     {% else %}
-        <p>Not implemented yet...</p>
+        <a href="{{ path('admin_users') }}"
+            class="btn btn-primary"
+            role="button"
+        >Users</a>
     {% endif %}
 {% endblock %}
