@@ -1,11 +1,11 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Users{% endblock %}
+{% block title %}User{% endblock %}
 
 {% block body %}
+    {% if is_granted('ROLE_ADMIN') %}
     <h1>{{ user.name }} {{ user.surname }}</h1>
 
-    {% if is_granted('ROLE_ADMIN') %}
         {% for role in roles %}
             <a href="{{ path('admin_user', {
                     'id': user.id, 'act': (role.is ? 'r_' : 'a_') ~ role.name
@@ -16,6 +16,7 @@
                 style="color: #fff; text-decoration: none"
                 >{{ role.name }}</a>
         {% endfor %}
+        <br><br>
         <p>Email: {{ user.email }}</p>
         <p>Phone: {{ user.phone }}</p>
         <a href="{{ path('admin_user', { 'id': user.id, 'act': 'delete' }) }}"
