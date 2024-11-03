@@ -10,6 +10,7 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class AnimalController extends AbstractController
 {
@@ -38,6 +39,14 @@ class AnimalController extends AbstractController
         if (!$animal)
             throw $this->createNotFoundException();
 
+        $walks = [];
+        foreach ($animal->getWalks() as $walk)
+        {
+            $walks[] = [
+                'start' => $walk->getStart()->format('Y-m-d H:i:s'),
+                'end' => $walk->getEnd()->format('Y-m-d H:i:s'),
+            ];
+        }
 
         $form = $this->createFormBuilder()
             ->setAction($this->generateUrl('animal_del', [
@@ -48,7 +57,21 @@ class AnimalController extends AbstractController
 
         return $this->render('animal/index.html.twig', [
             'animal' => $animal,
+            'walks' => $walks,
             'form' => $form,
+        ]);
+    }
+
+    #[Route('/admin/animals', name: 'animal_overview')]
+    #[IsGranted('ROLE_CARER')]
+    public function overview(Request $request): Response
+    {
+        $query = $request->query->get('query', '');
+        $animals = $this->ar->findAllSearch($query);
+
+        return $this->render('animal/overview.html.twig', [
+            'animals' => $animals,
+            'search_in' => '/admin/animals'
         ]);
     }
 
@@ -57,6 +80,7 @@ class AnimalController extends AbstractController
         name: 'animal_editor',
         methods: ['GET', 'POST']
     )]
+    #[IsGranted('ROLE_CARER')]
     public function editor(Request $request, int|null $id): Response
     {
         $animal = new Animal();
@@ -87,6 +111,7 @@ class AnimalController extends AbstractController
     }
 
     #[Route('/admin/animal/del/{id}', name: 'animal_del', methods: ['POST'])]
+    #[IsGranted('ROLE_CARER')]
     public function delete(int $id): Response
     {
         $animal = $this->ar->findOneBy(['id' => $id]);

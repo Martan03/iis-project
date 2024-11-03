@@ -50,15 +50,15 @@
 
             <p class="mb-1">
                 <b>Caregiver:</b>
-                {{ request.caregiver.name }}
-                {{ request.caregiver.surname }}
-                ({{ request.caregiver.email }})
+                {{ request.caregiver.user.name }}
+                {{ request.caregiver.user.surname }}
+                ({{ request.caregiver.user.email }})
             </p>
             <p class="mb-1">
                 <b>Veterinary:</b>
-                {{ request.veterinary.name }}
-                {{ request.veterinary.surname }}
-                ({{ request.veterinary.email }})
+                {{ request.veterinary.user.name }}
+                {{ request.veterinary.user.surname }}
+                ({{ request.veterinary.user.email }})
             </p>
             <p class="mb-1">
                 <b>Date of issue:</b>

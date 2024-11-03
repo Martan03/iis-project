@@ -3,7 +3,7 @@
 {% block title %}{{ animal.species }} {{ animal.name }}{% endblock %}
 
 {% block body %}
-	<div class="row">
+	<div class="row mb-2">
         <div class="col-md-6">
             <img
                 src="{{ animal.image }}"
@@ -76,4 +76,41 @@
             </p>
         </div>
 	</div>
+    <div id="calendar-holder"></div>
+{% endblock %}
+
+{% block javascripts %}
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const calendarEl = document.getElementById('calendar-holder');
+
+            const calendar = new FullCalendar.Calendar(calendarEl, {
+                initialView: 'dayGridMonth',
+                editable: true,
+                eventSources: [
+                    {
+                        url: '/fc-load-events',
+                        method: 'POST',
+                        extraParams: {
+                            filters: JSON.stringify({
+                                id: {{ animal.id }}
+                            })
+                        },
+                        failure: () => {
+                            // alert('There was an error while fetching FullCalendar!');
+                        },
+                    },
+                ],
+                headerToolbar: {
+                    start: 'prev,next today',
+                    center: 'title',
+                    end: 'dayGridMonth,timeGridWeek,timeGridDay'
+                },
+                timeZone: 'UTC',
+            });
+
+            calendar.render();
+        });
+    </script>
 {% endblock %}

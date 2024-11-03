@@ -14,6 +14,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class AdminController extends AbstractController
 {
@@ -36,6 +37,7 @@ class AdminController extends AbstractController
     }
 
     #[Route('/admin/users', name: 'admin_users')]
+    #[IsGranted('ROLE_ADMIN')]
     public function users(Request $request): Response
     {
         $query = $request->query->get('query', '');
@@ -48,6 +50,7 @@ class AdminController extends AbstractController
     }
 
     #[Route('/admin/user/{id}', name: 'admin_user')]
+    #[IsGranted('ROLE_ADMIN')]
     public function user(int $id, Request $request): Response
     {
         switch ($request->query->get('act', '')) {
@@ -104,6 +107,7 @@ class AdminController extends AbstractController
     }
 
     #[Route('/admin/verify', name: 'admin_verify')]
+    #[IsGranted('ROLE_CARER')]
     public function verify(Request $request): Response
     {
         $filter = $request->query->get('filter', 'to-verify');
@@ -122,6 +126,7 @@ class AdminController extends AbstractController
     }
 
     #[Route('/admin/verify/{id}', name: 'admin_verify_detail')]
+    #[IsGranted('ROLE_CARER')]
     public function verify_detail(Request $request, int $id): Response
     {
         $user = $this->ur->findOneBy(['id' => $id]);

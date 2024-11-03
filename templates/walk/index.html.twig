@@ -1,0 +1,63 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Walk{% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-md-3">
+            <img
+                src="{{ walk.animal.image }}"
+                class="card-img mb-3"
+                alt="{{ walk.animal.name }} image"
+            >
+            <h2>{{ walk.animal.name }}</h2>
+            <p>{{ walk.animal.species }} {{ walk.animal.breed }}</p>
+
+            <p class="mb-1">
+                <b>Date of birth:</b>
+                {{ walk.animal.birth ?
+                    walk.animal.birth|date('d.m.Y') : 'not known' }}
+            </p>
+            <p class="mb-1">
+                <b>Gender:</b>
+                {{ walk.animal.gender }}
+            </p>
+            <p class="mb-1">
+                <b>Height:</b>
+                {{ walk.animal.height }} cm
+            </p>
+            <p class="mb-1">
+                <b>Weight:</b>
+                {{ walk.animal.weight }} kg
+            </p>
+
+            <p class="mb-1">
+                <b>Handicap:</b>
+                {% if walk.animal.handicap %}
+                    {{ walk.animal.handicap }}
+                {% else %}
+                    none
+                {% endif %}
+            </p>
+            <p class="mb-1">
+                <b>Castrated:</b>
+                {{ walk.animal.castration ? 'yes' : 'no' }}
+            </p>
+        </div>
+        <div class="col-md-9">
+            <h2>Walk</h2>
+            <p>
+                {{ walk.start|date('d.m.Y H:i') }} -
+                {{ walk.end|date('H:i') }}
+            </p>
+            <p>
+                <b>Queue:</b>
+                {% if walk.registrations is empty %}
+                    empty
+                {% else %}
+                    {{ walk.registrations|length }}
+                {% endif %}
+            </p>
+        </div>
+	</div>
+{% endblock %}

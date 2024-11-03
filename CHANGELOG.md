@@ -7,3 +7,5 @@
 - Create request on veterinary
 - Admin can see users
 - Tweak user roles (currently can have only one role)
+- Create timetable for animal walks
+- Animal page contains calendar with walks

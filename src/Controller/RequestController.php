@@ -29,6 +29,30 @@ class RequestController extends AbstractController
         ]);
     }
 
+    #[Route('/admin/request/editor', name: 'request_editor')]
+    #[IsGranted('ROLE_CARER')]
+    public function editor(Request $request, RequestRepository $rr): Response
+    {
+        $req = new EntityRequest();
+
+        $form = $this->createForm(RequestType::class, $req);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            /** @var User */
+            $user = $this->getUser();
+
+            $req
+                ->setCaregiver($user->getCaregiver())
+                ->setDateCreated(new \DateTime());
+            $rr->save($req);
+            return $this->redirectToRoute('requests');
+        }
+
+        return $this->render('request/editor.html.twig', [
+            'form' => $form,
+        ]);
+    }
+
     #[Route('/admin/request/{id}', name: 'request')]
     public function request(RequestRepository $rr, int $id): Response
     {
@@ -39,29 +63,6 @@ class RequestController extends AbstractController
 
         return $this->render('request/index.html.twig', [
             'request' => $request,
-        ]);
-    }
-
-    #[Route('/admin/request/editor', name: 'request_editor')]
-    #[IsGranted('ROLE_CARER')]
-    public function editor(Request $request, RequestRepository $rr): Response
-    {
-        $req = new EntityRequest();
-
-        $form = $this->createForm(RequestType::class, $req);
-        $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
-            $user = $this->getUser();
-
-            $req
-                ->setCaregiver($user)
-                ->setDateCreated(new \DateTime());
-            $rr->save($req);
-            return $this->redirectToRoute('requests');
-        }
-
-        return $this->render('request/editor.html.twig', [
-            'form' => $form,
         ]);
     }
 }

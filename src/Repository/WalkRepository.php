@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Walk;
+use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -16,28 +17,27 @@ class WalkRepository extends ServiceEntityRepository
         parent::__construct($registry, Walk::class);
     }
 
-    //    /**
-    //     * @return Walk[] Returns an array of Walk objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('w')
-    //            ->andWhere('w.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('w.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
+    public function findAllFilter(int $id, DateTime $start, DateTime $end)
+    {
+        return $this->createQueryBuilder('w')
+            ->where('w.animal = :id')
+            ->andWhere(
+                'w.start BETWEEN :start and :end OR ' .
+                'w.end BETWEEN :start and :end'
+            )
+            ->setParameter('id', $id)
+            ->setParameter('start', $start)
+            ->setParameter('end', $end)
+            ->getQuery()
+            ->getResult();
+    }
 
-    //    public function findOneBySomeField($value): ?Walk
-    //    {
-    //        return $this->createQueryBuilder('w')
-    //            ->andWhere('w.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
+    public function save(Walk $walk): int
+    {
+        $em = $this->getEntityManager();
+        $em->persist($walk);
+        $em->flush();
+
+        return $walk->getId();
+    }
 }

@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Administration{% endblock %}
+
+{% block body %}
+    <div class="d-flex justify-content-between align-items-center">
+	    <h1>Walks</h1>
+
+        <a
+            href="{{ path('walk_editor') }}"
+            class="btn btn-primary"
+            role="button"
+        >
+            +
+        </a>
+    </div>
+
+    {% if walks is empty %}
+        <p>No walks found...</p>
+    {% else %}
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Date and time</th>
+                    <th scope="col">Animal name</th>
+                    <th scope="col">Species</th>
+                    <th scope="col">Breed</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for walk in walks %}
+                    {% set editUrl = path('walk_editor', {
+                        'id': walk.id
+                    }) %}
+                    <tr
+                        style="cursor: pointer"
+                        onclick="location.href = '{{ editUrl }}'"
+                    >
+                        <td class="align-middle">
+                            {{ walk.start|date('d.m.Y H:i') }} -
+                            {{ walk.end|date('H:i') }}
+                        </td>
+                        <td class="align-middle">{{ walk.animal.name }}</td>
+                        <td class="align-middle">{{ walk.animal.species }}</td>
+                        <td class="align-middle">{{ walk.animal.breed }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+{% endblock %}
