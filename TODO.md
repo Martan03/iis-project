@@ -3,8 +3,6 @@
 If you finish any of the tasks, please remove it from TODO!
 
 ## Pages
-- Page for registering animal for a walk (when available)
-    - Probably on animal detail page using timetable
 - Administration related pages
 (more details in [administration section](#administration))
 - Volunteer walk history page

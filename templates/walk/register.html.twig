@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Walk{% endblock %}
+
+{% block body %}
+    <h1>Registration complete!</h1>
+    <p>
+        Thanks for registering {{ walk.animal.name }} for a walk! Our
+        caregivers have to confirm your registration. You will get notified
+        about the state of your registration.
+    </p>
+    <p>
+        Your current place in queue is:
+        <b>{{ walk.registrations|length }}</b>
+    </p>
+{% endblock %}

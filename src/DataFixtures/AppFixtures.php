@@ -7,6 +7,7 @@ use App\Entity\Animal;
 use App\Entity\Caregiver;
 use App\Entity\User;
 use App\Entity\Veterinary;
+use App\Entity\Volunteer;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -103,7 +104,8 @@ class AppFixtures extends Fixture
             ->setPhone('314159265')
             ->setAdministrator(new Administrator())
             ->setVeterinary(new Veterinary())
-            ->setCaregiver(new Caregiver());
+            ->setCaregiver(new Caregiver())
+            ->setVolunteer((new Volunteer())->setVerified(true));
         $super->setPassword($this->hasher->hashPassword($super, 'super'));
         $manager->persist($super);
 

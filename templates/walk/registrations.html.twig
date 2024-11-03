@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Administration{% endblock %}
+
+{% block body %}
+    {% if registrations is empty %}
+        <p>No registrations found...</p>
+    {% else %}
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Date and time</th>
+                    <th scope="col">Animal name</th>
+                    <th scope="col">Species</th>
+                    <th scope="col">Breed</th>
+                    <th scope="col">Volunteer</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for reg in registrations %}
+                    {% set editUrl = path('walk_editor', {
+                        'id': reg.id
+                    }) %}
+                    <tr
+                        style="cursor: pointer"
+                        onclick="location.href = '{{ editUrl }}'"
+                    >
+                        <td class="align-middle">
+                            {{ reg.walk.start|date('d.m.Y H:i') }} -
+                            {{ reg.walk.end|date('H:i') }}
+                        </td>
+                        <td class="align-middle">
+                            {{ reg.walk.animal.name }}
+                        </td>
+                        <td class="align-middle">
+                            {{ reg.walk.animal.species }}
+                        </td>
+                        <td class="align-middle">
+                            {{ reg.walk.animal.breed }}
+                        </td>
+                        <td class="align-middle">
+                            {{ reg.volunteer.user.email }}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+{% endblock %}

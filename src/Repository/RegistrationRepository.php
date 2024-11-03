@@ -15,4 +15,13 @@ class RegistrationRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Registration::class);
     }
+
+    public function save(Registration $registration): int
+    {
+        $em = $this->getEntityManager();
+        $em->persist($registration);
+        $em->flush();
+
+        return $registration->getId();
+    }
 }

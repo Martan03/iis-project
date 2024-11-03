@@ -58,6 +58,9 @@
                     {{ walk.registrations|length }}
                 {% endif %}
             </p>
+            {% if is_granted('ROLE_VOL') %}
+                {{ form(form) }}
+            {% endif %}
         </div>
 	</div>
 {% endblock %}

@@ -47,17 +47,5 @@ class CalendarSubscriber implements EventSubscriberInterface
 
             $calendar->addEvent($walkEvent);
         }
-
-        $calendar->addEvent(new Event(
-            'Event 1',
-            new \DateTime('Tuesday this week'),
-            new \DateTime('Wednesdays this week')
-        ));
-
-        // If the end date is null or not defined, it creates a all day event
-        $calendar->addEvent(new Event(
-            'All day event',
-            new \DateTime('Friday this week')
-        ));
     }
 }

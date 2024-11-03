@@ -92,7 +92,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         if ($this->getCaregiver() !== null) {
             $roles[] = 'ROLE_CARER';
         }
-        if ($this->getVolunteer() !== null) {
+        if (
+            $this->getVolunteer() !== null &&
+            $this->getVolunteer()->isVerified()
+        ) {
             $roles[] = 'ROLE_VOL';
         }
         return $roles;
