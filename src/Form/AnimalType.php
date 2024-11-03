@@ -29,8 +29,7 @@ class AnimalType extends AbstractType
             ->add('file', FileType::class, [
                 'required' => false,
                 'attr' => [ 'accept' => 'image/*' ]
-            ])
-            ->add('submit', SubmitType::class);
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

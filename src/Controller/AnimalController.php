@@ -3,10 +3,11 @@
 namespace App\Controller;
 
 use App\Entity\Animal;
+use App\Form\AnimalHealthType;
 use App\Form\AnimalType;
 use App\Repository\AnimalRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Form\FormInterface;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -63,7 +64,6 @@ class AnimalController extends AbstractController
     }
 
     #[Route('/admin/animals', name: 'animal_overview')]
-    #[IsGranted('ROLE_CARER')]
     public function overview(Request $request): Response
     {
         $query = $request->query->get('query', '');
@@ -80,7 +80,6 @@ class AnimalController extends AbstractController
         name: 'animal_editor',
         methods: ['GET', 'POST']
     )]
-    #[IsGranted('ROLE_CARER')]
     public function editor(Request $request, int|null $id): Response
     {
         $animal = new Animal();
@@ -91,7 +90,15 @@ class AnimalController extends AbstractController
         if (!$animal)
             throw $this->createNotFoundException();
 
-        $form = $this->createForm(AnimalType::class, $animal);
+        $form = $this->createFormBuilder($animal)->getForm();
+        if ($this->isGranted('ROLE_CARER')) {
+            $form = $this->createForm(AnimalType::class, $animal);
+        }
+        if ($this->isGranted('ROLE_VET')) {
+            $form->add('handicap')->add('castration');
+        }
+        $form->add('submit', SubmitType::class);
+
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $file = $animal->getFile();

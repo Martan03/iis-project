@@ -8,6 +8,9 @@
     {% if is_granted('ROLE_CARER') %}
         {% include '/admin/caregiver/menu.html.twig' %}
     {% endif %}
+    {% if is_granted('ROLE_VET') %}
+        {% include '/admin/veterinary/menu.html.twig' %}
+    {% endif %}
     {% if is_granted('ROLE_ADMIN') %}
         <a href="{{ path('admin_users') }}"
             class="btn btn-primary"

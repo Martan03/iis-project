@@ -10,3 +10,4 @@
 - Create timetable for animal walks
 - Animal page contains calendar with walks
 - Open walk by clicking in calendar and register it
+- Manage animal health state

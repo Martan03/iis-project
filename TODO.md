@@ -16,5 +16,4 @@ If you finish any of the tasks, please remove it from TODO!
     - Approve animal walk registration
 - **Veterinary**
     - Create/edit animal examination (based on caregiver request)
-    - Manage animal health state
 
