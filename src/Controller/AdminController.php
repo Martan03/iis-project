@@ -2,12 +2,14 @@
 
 namespace App\Controller;
 
-use App\Repository\AdministratorRepository;
-use App\Repository\CaregiverRepository;
+use App\Entity\Administrator;
+use App\Entity\Veterinary;
 use App\Repository\UserRepository;
-use App\Repository\VeterinaryRepository;
+use App\Entity\User;
 use App\Repository\VolunteerRepository;
 use Exception;
+use Proxies\__CG__\App\Entity\Caregiver;
+use Proxies\__CG__\App\Entity\Volunteer;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -53,41 +55,44 @@ class AdminController extends AbstractController
     #[IsGranted('ROLE_ADMIN')]
     public function user(int $id, Request $request): Response
     {
+        /** @var User */
+        $user = $this->ur->findOneBy(['id' => $id]);
+
+        // TODO: use POST.
+        // TODO: disallow changing yourself. Use `$this->getUser()`
         switch ($request->query->get('act', '')) {
             case '':
                 break;
             case 'r_Admin':
-                // TODO: remove admin
+                $user->setAdministrator(null);
                 break;
             case 'a_Admin':
-                // TODO: add admin
+                $user->setAdministrator(new Administrator());
                 break;
             case 'r_Caregiver':
-                // TODO: remove cargiver
+                $user->setCaregiver(null);
                 break;
             case 'a_Caregiver':
-                // TODO: add caregiver
+                $user->setCaregiver(new Caregiver());
                 break;
             case 'r_Veterinary':
-                // TODO: remove veterinary
+                $user->setVeterinary(null);
                 break;
             case 'a_Veterinary':
-                // TODO: add veterinary
+                $user->setVeterinary(new Veterinary());
                 break;
             case 'r_Volunteer':
-                // TODO: remove volunteer
+                $user->setVolunteer(null);
                 break;
             case 'a_Volunteer':
-                // TODO: add volunteer
+                $user->setVolunteer(new Volunteer());
                 break;
             case 'delete':
-                // TODO: delete user
+                $this->ur->delete($user);
                 return new RedirectResponse($this->generateUrl('admin_users'));
             default:
                 throw new Exception("Invalid action on user.");
         }
-
-        $user = $this->ur->findOneBy(['id' => $id]);
 
         $is_admin = !is_null($user->getAdministrator());
         $is_caregiver = !is_null($user->getCaregiver());
