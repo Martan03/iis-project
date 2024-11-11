@@ -57,10 +57,18 @@ class AdminController extends AbstractController
     {
         /** @var User */
         $user = $this->ur->findOneBy(['id' => $id]);
+        $action = $request->query->get('act', '');
+
+        if ($action != '') {
+            /** @var User */
+            $cur_user = $this->getUser();
+            if ($cur_user->getId() == $user->getId()) {
+                throw new Exception("Admin cannot edit himself.");
+            }
+        }
 
         // TODO: use POST.
-        // TODO: disallow changing yourself. Use `$this->getUser()`
-        switch ($request->query->get('act', '')) {
+        switch ($action) {
             case '':
                 break;
             case 'r_Admin':
@@ -92,6 +100,10 @@ class AdminController extends AbstractController
                 return new RedirectResponse($this->generateUrl('admin_users'));
             default:
                 throw new Exception("Invalid action on user.");
+        }
+
+        if ($action != '') {
+            $this->ur->save($user);
         }
 
         $is_admin = !is_null($user->getAdministrator());
