@@ -48,6 +48,7 @@ class AdminController extends AbstractController
         return $this->render('admin/users.html.twig', [
             'users' => $users,
             'search_in' => '/admin/users',
+            'search_text' => 'Users',
         ]);
     }
 
@@ -117,6 +118,7 @@ class AdminController extends AbstractController
         return $this->render('admin/user.html.twig', [
             'user' => $user,
             'search_in' => '/admin/users',
+            'search_text' => 'Users',
             'error' => $error,
             'roles' => [
                 [ 'name' => 'Admin', 'is' => $is_admin ],

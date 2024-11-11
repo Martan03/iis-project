@@ -43,7 +43,7 @@
                 <input
                     class="form-control mr-sm-2"
                     type="search"
-                    placeholder="Search"
+                    placeholder="Search {{ search_text|default('Animals')}}"
                     aria-label="Search"
                     name="query"
                     value="{{ app.request.query.get('query') }}"
