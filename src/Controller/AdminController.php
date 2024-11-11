@@ -57,53 +57,54 @@ class AdminController extends AbstractController
     {
         /** @var User */
         $user = $this->ur->findOneBy(['id' => $id]);
-        $action = $request->query->get('act', '');
+        $action = $request->request->get('act', '');
+        $error = null;
 
         if ($action != '') {
             /** @var User */
             $cur_user = $this->getUser();
             if ($cur_user->getId() == $user->getId()) {
-                throw new Exception("Admin cannot edit himself.");
+                $error = "Admin cannot edit himself.";
             }
-        }
-
-        // TODO: use POST.
-        switch ($action) {
-            case '':
-                break;
-            case 'r_Admin':
-                $user->setAdministrator(null);
-                break;
-            case 'a_Admin':
-                $user->setAdministrator(new Administrator());
-                break;
-            case 'r_Caregiver':
-                $user->setCaregiver(null);
-                break;
-            case 'a_Caregiver':
-                $user->setCaregiver(new Caregiver());
-                break;
-            case 'r_Veterinary':
-                $user->setVeterinary(null);
-                break;
-            case 'a_Veterinary':
-                $user->setVeterinary(new Veterinary());
-                break;
-            case 'r_Volunteer':
-                $user->setVolunteer(null);
-                break;
-            case 'a_Volunteer':
-                $user->setVolunteer(new Volunteer());
-                break;
-            case 'delete':
-                $this->ur->delete($user);
-                return new RedirectResponse($this->generateUrl('admin_users'));
-            default:
-                throw new Exception("Invalid action on user.");
-        }
-
-        if ($action != '') {
-            $this->ur->save($user);
+        } else {
+            switch ($action) {
+                case '':
+                    break;
+                case 'r_Admin':
+                    $user->setAdministrator(null);
+                    break;
+                case 'a_Admin':
+                    $user->setAdministrator(new Administrator());
+                    break;
+                case 'r_Caregiver':
+                    $user->setCaregiver(null);
+                    break;
+                case 'a_Caregiver':
+                    $user->setCaregiver(new Caregiver());
+                    break;
+                case 'r_Veterinary':
+                    $user->setVeterinary(null);
+                    break;
+                case 'a_Veterinary':
+                    $user->setVeterinary(new Veterinary());
+                    break;
+                case 'r_Volunteer':
+                    $user->setVolunteer(null);
+                    break;
+                case 'a_Volunteer':
+                    $user->setVolunteer(new Volunteer());
+                    break;
+                case 'delete':
+                    $this->ur->delete($user);
+                    return new RedirectResponse($this->generateUrl('admin_users'));
+                default:
+                    $error = "Invalid action on user.";
+                    break;
+            }
+            
+            if ($action != '') {
+                $this->ur->save($user);
+            }
         }
 
         $is_admin = !is_null($user->getAdministrator());
@@ -114,6 +115,7 @@ class AdminController extends AbstractController
         return $this->render('admin/user.html.twig', [
             'user' => $user,
             'search_in' => '/admin/users',
+            'error' => $error,
             'roles' => [
                 [ 'name' => 'Admin', 'is' => $is_admin ],
                 [ 'name' => 'Caregiver', 'is' => $is_caregiver ],
