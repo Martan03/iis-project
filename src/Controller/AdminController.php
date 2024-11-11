@@ -96,12 +96,14 @@ class AdminController extends AbstractController
                     break;
                 case 'delete':
                     $this->ur->delete($user);
-                    return new RedirectResponse($this->generateUrl('admin_users'));
+                    return new RedirectResponse(
+                        $this->generateUrl('admin_users')
+                    );
                 default:
                     $error = "Invalid action on user.";
                     break;
             }
-            
+
             if ($action != '') {
                 $this->ur->save($user);
             }
