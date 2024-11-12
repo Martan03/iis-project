@@ -11,3 +11,6 @@
 - Animal page contains calendar with walks
 - Open walk by clicking in calendar and register it
 - Manage animal health state
+- **Administrator**
+    - User management (idk what is meant by that)
+    - Create caregiver and veterinary

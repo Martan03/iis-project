@@ -60,54 +60,20 @@ class AdminController extends AbstractController
         $user = $this->ur->findOneBy(['id' => $id]);
         $action = $request->request->get('act', '');
         $error = null;
+        $page = null;
 
         if ($action != '') {
             /** @var User */
             $cur_user = $this->getUser();
             if ($cur_user->getId() == $user->getId()) {
                 $error = "Admin cannot edit himself.";
+            } else {
+                $page = $this->operateUser($action, $user, $error);
             }
-        } else {
-            switch ($action) {
-                case '':
-                    break;
-                case 'r_Admin':
-                    $user->setAdministrator(null);
-                    break;
-                case 'a_Admin':
-                    $user->setAdministrator(new Administrator());
-                    break;
-                case 'r_Caregiver':
-                    $user->setCaregiver(null);
-                    break;
-                case 'a_Caregiver':
-                    $user->setCaregiver(new Caregiver());
-                    break;
-                case 'r_Veterinary':
-                    $user->setVeterinary(null);
-                    break;
-                case 'a_Veterinary':
-                    $user->setVeterinary(new Veterinary());
-                    break;
-                case 'r_Volunteer':
-                    $user->setVolunteer(null);
-                    break;
-                case 'a_Volunteer':
-                    $user->setVolunteer(new Volunteer());
-                    break;
-                case 'delete':
-                    $this->ur->delete($user);
-                    return new RedirectResponse(
-                        $this->generateUrl('admin_users')
-                    );
-                default:
-                    $error = "Invalid action on user.";
-                    break;
-            }
+        }
 
-            if ($action != '') {
-                $this->ur->save($user);
-            }
+        if (!is_null($page)) {
+            return $page;
         }
 
         $is_admin = !is_null($user->getAdministrator());
@@ -193,5 +159,52 @@ class AdminController extends AbstractController
             'toVerifyForm' => $toVerifyForm,
             'denyForm' => $denyForm,
         ]);
+    }
+
+    function operateUser(
+        string $action, User &$user, string|null &$error
+    ): Response|null {
+        switch ($action) {
+            case '':
+                break;
+            case 'r_Admin':
+                $user->setAdministrator(null);
+                break;
+            case 'a_Admin':
+                $user->setAdministrator(new Administrator());
+                break;
+            case 'r_Caregiver':
+                $user->setCaregiver(null);
+                break;
+            case 'a_Caregiver':
+                $user->setCaregiver(new Caregiver());
+                break;
+            case 'r_Veterinary':
+                $user->setVeterinary(null);
+                break;
+            case 'a_Veterinary':
+                $user->setVeterinary(new Veterinary());
+                break;
+            case 'r_Volunteer':
+                $user->setVolunteer(null);
+                break;
+            case 'a_Volunteer':
+                $user->setVolunteer(new Volunteer());
+                break;
+            case 'delete':
+                $this->ur->delete($user);
+                return new RedirectResponse(
+                    $this->generateUrl('admin_users')
+                );
+            default:
+                $error = "Invalid action on user.";
+                break;
+        }
+
+        if ($action != '') {
+            $this->ur->save($user);
+        }
+
+        return null;
     }
 }

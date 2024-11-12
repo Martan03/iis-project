@@ -8,9 +8,6 @@ If you finish any of the tasks, please remove it from TODO!
 - Volunteer walk history page
 
 ### Administration
-- **Administrator**
-    - User management (idk what is meant by that)
-    - Create caregiver and veterinary
 - **Caregiver**
     - ~~Create timetable for animal walks~~ Make it better :)
     - Approve animal walk registration
