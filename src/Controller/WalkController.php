@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Registration;
 use App\Entity\Walk;
+use App\Entity\User;
 use App\Form\WalkType;
 use App\Repository\RegistrationRepository;
 use App\Repository\WalkRepository;

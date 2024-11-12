@@ -23,7 +23,7 @@ class WalkType extends AbstractType
             ])
             ->add('animal', EntityType::class, [
                 'class' => Animal::class,
-                'choice_label' => 'id',
+                'choice_label' => 'name',
             ])
             ->add('submit', SubmitType::class);
     }
