@@ -56,6 +56,8 @@ class WalkController extends AbstractController
             /** @var User */
             $user = $this->getUser();
 
+            // TODO: don't allow registering more times for the same walk by
+            // the same user
             $registration = (new Registration())
                 ->setState('waiting')
                 ->setVolunteer($user->getVolunteer())

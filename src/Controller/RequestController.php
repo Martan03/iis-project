@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Request as EntityRequest;
 use App\Form\RequestType;
+use App\Entity\User;
 use App\Repository\RequestRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
