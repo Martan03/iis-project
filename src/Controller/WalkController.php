@@ -116,24 +116,53 @@ class WalkController extends AbstractController
     #[IsGranted('ROLE_CARER')]
     public function registrations(): Response
     {
-        $registrations = $this->rr->findAll();
+        $walks = $this->wr->getFuture();
 
         return $this->render('walk/registrations.html.twig', [
-            'registrations' => $registrations,
+            'walks' => $walks,
         ]);
     }
 
     #[Route('/admin/registration/{id}', name: 'registration')]
     #[IsGranted('ROLE_CARER')]
-    public function registration(int $id): Response
+    public function registration(int $id, Request $req): Response
     {
-        $registration = $this->rr->findOneBy(['id' => $id]);
-        if (!$registration) {
+        /** @var Walk */
+        $walk = $this->wr->findOneBy(['id' => $id]);
+        if (!$walk) {
             throw $this->createNotFoundException();
         }
 
+        $to_select = $req->request->get('select', null);
+        if (!is_null($to_select)) {
+            /** @var Registration */
+            $sel = $this->rr->findOneBy(
+                ['walk' => $walk, 'state' => 'selected']
+            );
+            if (!is_null($sel)) {
+                $sel->setState('waiting');
+                $this->rr->save($sel);
+            }
+
+            /** @var Registration */
+            $reg = $this->rr->findOneBy(['id' => $to_select]);
+            $reg->setState('selected');
+            $this->rr->save($reg);
+        }
+
+        $animal = $walk->getAnimal();
+        /** @var array[Registration] */
+        $adepts = $this->rr->findBy(['walk' => $walk]);
+        /** @var Registration */
+        $user = $this->rr->findOneBy(['walk' => $walk, 'state' => 'selected']);
+
         return $this->render('walk/registration.html.twig', [
-            'registration' => $registration,
+            'walk' => $walk,
+            'start' => $walk->getStart()->format("D d.m Y H:i"),
+            'end' => $walk->getEnd()->format("H:i"),
+            'animal' => $animal,
+            'adepts' => $adepts,
+            'user' => $user,
         ]);
     }
 }

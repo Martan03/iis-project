@@ -4,4 +4,46 @@
 
 {% block body %}
     <h2>Registration</h2>
+
+    <p>Animal: {{ animal.name }}</p>
+    <p>Walk: {{ start }} - {{ end }}</p>
+    <p>Volunteer: {{ user ? user.volunteer.user.email : '-' }}</p>
+
+    <h3>Adepts</h3>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Email</th>
+                <th scope="col">State</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for adept in adepts %}
+                <tr>
+                    <td class="align-middle">
+                        {{ adept.volunteer.user.email }}
+                    </td>
+                    <td class="align-middle">
+                        {% if adept.state != 'waiting' %}
+                            Selected
+                        {% else %}
+                            <form method="POST"
+                                action="{{
+                                    path('registration', { 'id': walk.id })
+                                }}"
+                            >
+                                <input type="hidden"
+                                    name="select"
+                                    value="{{ adept.id }}"
+                                >
+                                <button type="submit" class="btn btn-primary">
+                                    Select
+                                </button>
+                            </form>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 {% endblock %}

@@ -3,7 +3,8 @@
 {% block title %}Administration{% endblock %}
 
 {% block body %}
-    {% if registrations is empty %}
+    <h1>Registrations</h1>
+    {% if walks is empty %}
         <p>No registrations found...</p>
     {% else %}
         <table class="table">
@@ -13,33 +14,29 @@
                     <th scope="col">Animal name</th>
                     <th scope="col">Species</th>
                     <th scope="col">Breed</th>
-                    <th scope="col">Volunteer</th>
                 </tr>
             </thead>
             <tbody>
-                {% for reg in registrations %}
-                    {% set editUrl = path('walk_editor', {
-                        'id': reg.id
+                {% for walk in walks %}
+                    {% set editUrl = path('registration', {
+                        'id': walk.id
                     }) %}
                     <tr
                         style="cursor: pointer"
                         onclick="location.href = '{{ editUrl }}'"
                     >
                         <td class="align-middle">
-                            {{ reg.walk.start|date('d.m.Y H:i') }} -
-                            {{ reg.walk.end|date('H:i') }}
+                            {{ walk.start|date('d.m.Y H:i') }} -
+                            {{ walk.end|date('H:i') }}
                         </td>
                         <td class="align-middle">
-                            {{ reg.walk.animal.name }}
+                            {{ walk.animal.name }}
                         </td>
                         <td class="align-middle">
-                            {{ reg.walk.animal.species }}
+                            {{ walk.animal.species }}
                         </td>
                         <td class="align-middle">
-                            {{ reg.walk.animal.breed }}
-                        </td>
-                        <td class="align-middle">
-                            {{ reg.volunteer.user.email }}
+                            {{ walk.animal.breed }}
                         </td>
                     </tr>
                 {% endfor %}

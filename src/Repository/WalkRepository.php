@@ -32,6 +32,15 @@ class WalkRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    public function getFuture(): array {
+        $now = time();
+        return $this->createQueryBuilder('w')
+            ->where('w.start > :now')
+            ->setParameter('now', $now)
+            ->getQuery()
+            ->getResult();
+    }
+
     public function save(Walk $walk): int
     {
         $em = $this->getEntityManager();
