@@ -123,6 +123,6 @@ class AnimalController extends AbstractController
     {
         $animal = $this->ar->findOneBy(['id' => $id]);
         $this->ar->delete($animal);
-        return $this->redirectToRoute('animals');
+        return $this->redirectToRoute('animal_overview');
     }
 }

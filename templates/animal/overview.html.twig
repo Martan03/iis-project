@@ -8,13 +8,16 @@
     {% if animals is empty %}
         <p>No volunteers found...</p>
     {% else %}
-        <table class="table">
+        <table class="table table-hover">
             <thead>
                 <tr>
                     <th scope="col">Picture</th>
                     <th scope="col">Name</th>
                     <th scope="col">Species</th>
                     <th scope="col">Breed</th>
+                    {% if is_granted('ROLE_CARER') %}
+                        <th scope="col"></th>
+                    {% endif %}
                 </tr>
             </thead>
             <tbody>
@@ -36,6 +39,19 @@
                         <td class="align-middle">{{ animal.name }}</td>
                         <td class="align-middle">{{ animal.species }}</td>
                         <td class="align-middle">{{ animal.breed }}</td>
+                        {% if is_granted('ROLE_CARER') %}
+                            <td class="align-middle" style="width: 1%">
+                                {{ include('modal.html.twig', {
+                                    modal_act:
+                                        path('animal_del', { id: animal.id }),
+                                    modal_btn: 'Delete',
+                                    modal_title: 'Delete this animal?',
+                                    modal_desc:
+                                        'Are you sure you want to delete it?',
+                                    modal_target: 'modal-' ~ animal.id
+                                }) }}
+                            </td>
+                        {% endif %}
                     </tr>
                 {% endfor %}
             </tbody>

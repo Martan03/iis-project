@@ -21,11 +21,20 @@ class RequestType extends AbstractType
             ->add('description')
             ->add('veterinary', EntityType::class, [
                 'class' => Veterinary::class,
-                'choice_label' => 'id',
+                'choice_label' => function (Veterinary $vet) {
+                    $user = $vet->getUser();
+                    return $user->getName() . ' ' .
+                        $user->getSurname() . ' (' .
+                        $user->getEmail() . ')';
+                },
             ])
             ->add('animal', EntityType::class, [
                 'class' => Animal::class,
-                'choice_label' => 'id',
+                'choice_label' => function (Animal $animal) {
+                    return $animal->getName() . ' (' .
+                        $animal->getSpecies() . ' ' .
+                        $animal->getBreed() . ')';
+                },
             ])
             ->add('submit', SubmitType::class);
     }

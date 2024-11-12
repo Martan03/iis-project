@@ -26,7 +26,7 @@
                             Edit
                         </a>
                         {{ include('modal.html.twig', {
-                            form: form,
+                            modal_act: path('animal_del', { id: animal.id }),
                             modal_btn: 'Delete',
                             modal_title: 'Delete this animal?',
                             modal_desc: 'Are you sure you want to delete it?'
