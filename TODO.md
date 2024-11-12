@@ -10,7 +10,6 @@ If you finish any of the tasks, please remove it from TODO!
 ### Administration
 - **Caregiver**
     - ~~Create timetable for animal walks~~ Make it better :)
-    - Approve animal walk registration
 - **Veterinary**
     - Create/edit animal examination (based on caregiver request)
 
