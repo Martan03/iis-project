@@ -8,6 +8,7 @@ use App\Entity\User;
 use App\Form\WalkType;
 use App\Repository\RegistrationRepository;
 use App\Repository\WalkRepository;
+use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
@@ -47,6 +48,7 @@ class WalkController extends AbstractController
         if (!$walk) {
             throw $this->createNotFoundException();
         }
+        $error = null;
 
         $form = $this->createFormBuilder()
             ->add('register', SubmitType::class)
@@ -56,23 +58,29 @@ class WalkController extends AbstractController
             /** @var User */
             $user = $this->getUser();
 
-            // TODO: don't allow registering more times for the same walk by
-            // the same user
-            $registration = (new Registration())
-                ->setState('waiting')
-                ->setVolunteer($user->getVolunteer())
-                ->setWalk($walk);
-            $this->rr->save($registration);
-            $walk->addRegistration($registration);
-
-            return $this->redirectToRoute('walk_register', [
-                'id' => $walk->getId()]
+            $registered = $this->rr->findOneBy(
+                ['volunteer' => $user->getVolunteer(), 'walk' => $walk]
             );
+            if (is_null($registered)) {
+                $registration = (new Registration())
+                    ->setState('waiting')
+                    ->setVolunteer($user->getVolunteer())
+                    ->setWalk($walk);
+                $this->rr->save($registration);
+                $walk->addRegistration($registration);
+
+                return $this->redirectToRoute('walk_register', [
+                    'id' => $walk->getId()]
+                );
+            }
+
+            $error = "You are already registered for this walk";
         }
 
         return $this->render('walk/index.html.twig', [
             'walk' => $walk,
             'form' => $form,
+            'error' => $error,
         ]);
     }
 
