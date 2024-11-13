@@ -140,29 +140,41 @@ class WalkController extends AbstractController
         if (!$walk) {
             throw $this->createNotFoundException();
         }
+        $user = $this->rr->getSelected($walk);
+        /** @var array[Registration] */
+        $adepts = $this->rr->findBy(['walk' => $walk]);
 
         $to_select = $req->request->get('select', null);
+        $to_borrow = $req->request->get('Borrow', null);
+        $to_return = $req->request->get('Return', null);
+
         if (!is_null($to_select)) {
-            /** @var Registration */
-            $sel = $this->rr->findOneBy(
-                ['walk' => $walk, 'state' => 'selected']
-            );
-            if (!is_null($sel)) {
-                $sel->setState('waiting');
-                $this->rr->save($sel);
+            if (!is_null($user)) {
+                $user->setState('waiting');
+                $this->rr->save($user);
             }
 
             /** @var Registration */
-            $reg = $this->rr->findOneBy(['id' => $to_select]);
-            $reg->setState('selected');
-            $this->rr->save($reg);
+            $user = $this->rr->findOneBy(['id' => $to_select]);
+            $user->setState('selected');
+            $this->rr->save($user);
+        }
+
+        if (!is_null($to_borrow) && !is_null($user)) {
+            foreach ($adepts as $_i => $adept) {
+                $adept->setState('rejected');
+                $this->rr->save($adept);
+            }
+            $user->setState('borrowed');
+            $this->rr->save($user);
+        }
+
+        if (!is_null($to_return) && !is_null($user)) {
+            $user->setState('returned');
+            $this->rr->save($user);
         }
 
         $animal = $walk->getAnimal();
-        /** @var array[Registration] */
-        $adepts = $this->rr->findBy(['walk' => $walk]);
-        /** @var Registration */
-        $user = $this->rr->findOneBy(['walk' => $walk, 'state' => 'selected']);
 
         return $this->render('walk/registration.html.twig', [
             'walk' => $walk,

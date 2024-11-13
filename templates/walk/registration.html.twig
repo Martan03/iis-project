@@ -9,6 +9,20 @@
     <p>Walk: {{ start }} - {{ end }}</p>
     <p>Volunteer: {{ user ? user.volunteer.user.email : '-' }}</p>
 
+    {% if user and user.state != 'returned' %}
+        {% if user.state == 'selected' %}
+            {% set action = 'Borrow' %}
+        {% else %}
+            {% set action = 'Return' %}
+        {% endif %}
+        <form method="POST"
+            action="{{ path('registration', { 'id': walk.id }) }}"
+        >
+            <input type="hidden" name="{{ action }}" value="{{ user.id }}">
+            <button type="submit" class="btn btn-primary">{{ action }}</button>
+        </form>
+    {% endif %}
+
     <h3>Adepts</h3>
     <table class="table">
         <thead>
@@ -24,9 +38,7 @@
                         {{ adept.volunteer.user.email }}
                     </td>
                     <td class="align-middle">
-                        {% if adept.state != 'waiting' %}
-                            Selected
-                        {% else %}
+                        {% if adept.state == 'waiting' %}
                             <form method="POST"
                                 action="{{
                                     path('registration', { 'id': walk.id })
@@ -40,6 +52,8 @@
                                     Select
                                 </button>
                             </form>
+                        {% else %}
+                            {{ adept.state }}
                         {% endif %}
                     </td>
                 </tr>
