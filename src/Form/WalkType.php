@@ -23,7 +23,11 @@ class WalkType extends AbstractType
             ])
             ->add('animal', EntityType::class, [
                 'class' => Animal::class,
-                'choice_label' => 'name',
+                'choice_label' => function (Animal $animal) {
+                    return $animal->getName() . ' (' .
+                        $animal->getSpecies() . ' ' .
+                        $animal->getBreed() . ')';
+                },
             ])
             ->add('submit', SubmitType::class);
     }

@@ -3,10 +3,82 @@
 {% block title %}Animal shelter!{% endblock %}
 
 {% block body %}
-    <h1>Welcome!</h1>
+    <div class="row">
+        <div class="col-md-6">
+            <h1>Welcome!</h1>
 
-    <p>
-        This is an Animal shelter website. You can register and start helping
-        animals in need by taking them for a walk!
-    </p>
+            <p>
+                This is an Animal shelter website. You can register and start
+                helping animals in need by taking them for a walk!
+            </p>
+
+            <h2>Animals we shelter</h2>
+            <p>
+                We currently provide shelter for a total of
+                <b>{{ animal_cnt }}</b> animals, representing
+                <b>{{ animal_cnt }}</b> distinct species.
+            </p>
+            <p>
+                To learn more about our animals, please visit the
+                <a href="{{ path('animals') }}">Animals page</a>.
+            </p>
+
+            <h2>Becoming a volunteer</h2>
+            <p>
+                If you are interested in becoming a volunteer, you can
+                <a href="{{ path('register') }}">sign up</a>.
+                Once our caregivers complete the verification process, you'll
+                be able to register for scheduled walks with the assigned
+                animals.
+            </p>
+        </div>
+
+        <div class="col-md-6">
+            <div
+                id="myCarousel"
+                class="carousel slide"
+                data-bs-ride="carousel"
+                data-bs-interval="3000"
+            >
+                <div class="carousel-inner">
+                    {% for animal in animals %}
+                        <div class="carousel-item {{ loop.first ? 'active' : '' }}">
+                            <img
+                                src="{{ animal.image }}"
+                                class="d-block w-100"
+                                alt="{{ animal.name ~ ' image' }}"
+                                style="max-height: calc(100vh - 80px);"
+                            >
+                        </div>
+                    {% endfor %}
+                </div>
+
+                <button
+                    class="carousel-control-prev"
+                    type="button"
+                    data-bs-target="#myCarousel"
+                    data-bs-slide="prev"
+                >
+                    <span
+                        class="carousel-control-prev-icon"
+                        aria-hidden="true"
+                    ></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+
+                <button
+                    class="carousel-control-next"
+                    type="button"
+                    data-bs-target="#myCarousel"
+                    data-bs-slide="next"
+                >
+                    <span
+                        class="carousel-control-next-icon"
+                        aria-hidden="true"
+                    ></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            </div>
+        </div>
+    </div>
 {% endblock %}

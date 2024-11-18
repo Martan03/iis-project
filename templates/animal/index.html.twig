@@ -76,7 +76,7 @@
             </p>
         </div>
 	</div>
-    <div id="calendar-holder"></div>
+    <div id="calendar-holder" style="max-height: calc(100vh - 80px);"></div>
 {% endblock %}
 
 {% block javascripts %}
@@ -86,7 +86,7 @@
             const calendarEl = document.getElementById('calendar-holder');
 
             const calendar = new FullCalendar.Calendar(calendarEl, {
-                initialView: 'dayGridMonth',
+                initialView: 'timeGridWeek',
                 editable: true,
                 eventSources: [
                     {

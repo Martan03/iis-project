@@ -178,7 +178,7 @@ class WalkController extends AbstractController
 
         return $this->render('walk/registration.html.twig', [
             'walk' => $walk,
-            'start' => $walk->getStart()->format("D d.m Y H:i"),
+            'start' => $walk->getStart()->format("D d.m.Y H:i"),
             'end' => $walk->getEnd()->format("H:i"),
             'animal' => $animal,
             'adepts' => $adepts,

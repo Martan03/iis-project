@@ -28,6 +28,13 @@ class AnimalRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    public function countSpecies(): int {
+        return $this->createQueryBuilder('a')
+            ->select('COUNT(DISTINCT a.species)')
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
     public function save(Animal $animal): int
     {
         $em = $this->getEntityManager();
