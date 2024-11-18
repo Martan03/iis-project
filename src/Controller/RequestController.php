@@ -9,6 +9,7 @@ use App\Entity\User;
 use App\Form\ExaminationType;
 use App\Repository\ExaminationRepository;
 use App\Repository\RequestRepository;
+use DateTime;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -121,6 +122,11 @@ class RequestController extends AbstractController
             $exam->setRequest($req);
             $exam->setVeterinary($user->getVeterinary());
             $exam->setAnimal($req->getAnimal());
+
+            if ($exam->getResult() != null && !empty($exam->getResult())) {
+                $req->setDateFulfilled(new DateTime());
+            }
+
             $exam->setResult($exam->getResult() ?? '');
             $this->er->save($exam);
 

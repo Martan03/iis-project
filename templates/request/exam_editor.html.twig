@@ -30,6 +30,48 @@
                 <b>Date of issue:</b>
                 {{ request.dateCreated|date('d.m.Y') }}
             </p>
+
+            <img
+                src="{{ request.animal.image }}"
+                class="mb-3"
+                style="max-height: 300px; object-fit: contain"
+                alt="{{ request.animal.name }} image"
+            >
+            <h2>{{ request.animal.name }}</h2>
+            <p>
+                {{ request.animal.species }} {{ request.animal.breed }}
+            </p>
+
+            <p class="mb-1">
+                <b>Date of birth:</b>
+                {{ request.animal.birth ?
+                    request.animal.birth|date('d.m.Y') : 'not known' }}
+            </p>
+            <p class="mb-1">
+                <b>Gender:</b>
+                {{ request.animal.gender }}
+            </p>
+            <p class="mb-1">
+                <b>Height:</b>
+                {{ request.animal.height }} cm
+            </p>
+            <p class="mb-1">
+                <b>Weight:</b>
+                {{ request.animal.weight }} kg
+            </p>
+
+            <p class="mb-1">
+                <b>Handicap:</b>
+                {% if request.animal.handicap %}
+                    {{ request.animal.handicap }}
+                {% else %}
+                    none
+                {% endif %}
+            </p>
+            <p class="mb-1">
+                <b>Castrated:</b>
+                {{ request.animal.castration ? 'yes' : 'no' }}
+            </p>
         </div>
     </div>
 {% endblock %}

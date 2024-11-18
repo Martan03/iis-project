@@ -69,8 +69,14 @@
             </p>
             <p class="mb-1">
                 <b>Date of issue:</b>
-                {{ request.dateCreated|date('d.m.Y') }}
+                {{ request.dateCreated|date('d.m.Y H:i') }}
             </p>
+            {% if request.dateFulfilled is not null %}
+                <p class="mb-1">
+                    <b>Fulfilled date:</b>
+                    {{ request.dateFulfilled|date('d.m.Y H:i') }}
+                </p>
+            {% endif %}
         </div>
 
         <div class="col-md-6">
@@ -97,7 +103,7 @@
                 <p>Examination not planned yet...</p>
             {% else %}
                 <p class="mb-1">
-                    {{ request.examination.date|date('d.m.Y H:m') }}
+                    {{ request.examination.date|date('d.m.Y H:i') }}
                 </p>
                 <b>Result:</b>
                 <p class="mb-1">
