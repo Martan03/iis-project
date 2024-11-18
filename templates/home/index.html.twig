@@ -44,7 +44,7 @@
                     {% for animal in animals %}
                         <div class="carousel-item {{ loop.first ? 'active' : '' }}">
                             <img
-                                src="{{ animal.image }}"
+                                src="{{ asset(animal.image) }}"
                                 class="d-block w-100"
                                 alt="{{ animal.name ~ ' image' }}"
                                 style="max-height: calc(100vh - 80px);"

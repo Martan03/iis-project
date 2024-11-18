@@ -32,7 +32,7 @@
             </p>
 
             <img
-                src="{{ request.animal.image }}"
+                src="{{ asset(request.animal.image) }}"
                 class="mb-3"
                 style="max-height: 300px; object-fit: contain"
                 alt="{{ request.animal.name }} image"
