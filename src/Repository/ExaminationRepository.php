@@ -15,4 +15,20 @@ class ExaminationRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Examination::class);
     }
+
+    public function save(Examination $exam): int
+    {
+        $em = $this->getEntityManager();
+        $em->persist($exam);
+        $em->flush();
+
+        return $exam->getId();
+    }
+
+    public function delete(Examination $exam)
+    {
+        $em = $this->getEntityManager();
+        $em->remove($exam);
+        $em->flush();
+    }
 }

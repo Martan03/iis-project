@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Administration{% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-md-6">
+            <h1>Examination</h1>
+
+            {{ form(form) }}
+        </div>
+
+        <div class="col-md-6">
+            <h1>Request</h1>
+            <p>{{ request.description }}</p>
+
+            <p class="mb-1">
+                <b>Caregiver:</b>
+                {{ request.caregiver.user.name }}
+                {{ request.caregiver.user.surname }}
+                ({{ request.caregiver.user.email }})
+            </p>
+            <p class="mb-1">
+                <b>Veterinary:</b>
+                {{ request.veterinary.user.name }}
+                {{ request.veterinary.user.surname }}
+                ({{ request.veterinary.user.email }})
+            </p>
+            <p class="mb-1">
+                <b>Date of issue:</b>
+                {{ request.dateCreated|date('d.m.Y') }}
+            </p>
+        </div>
+    </div>
+{% endblock %}

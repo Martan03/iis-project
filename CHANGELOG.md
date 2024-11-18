@@ -15,3 +15,4 @@
     - User management (idk what is meant by that)
     - Create caregiver and veterinary
 - Approve animal walk registration
+- Create/edit animal examination

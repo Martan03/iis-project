@@ -4,47 +4,54 @@
 
 {% block body %}
 	<div class="row">
-        <div class="col-md-3">
-            <img
-                src="{{ request.animal.image }}"
-                class="card-img mb-3"
-                alt="{{ request.animal.name }} image"
-            >
-            <h2>{{ request.animal.name }}</h2>
-            <p>{{ request.animal.species }} {{ request.animal.breed }}</p>
+        <div class="col-md-6">
+            <div class="row">
+                <div class="col-md-6">
+                    <img
+                        src="{{ request.animal.image }}"
+                        class="card-img mb-3"
+                        alt="{{ request.animal.name }} image"
+                    >
+                </div>
+                <div class="col-md-6">
+                    <h2>{{ request.animal.name }}</h2>
+                    <p>
+                        {{ request.animal.species }} {{ request.animal.breed }}
+                    </p>
 
-            <p class="mb-1">
-                <b>Date of birth:</b>
-                {{ request.animal.birth ?
-                    request.animal.birth|date('d.m.Y') : 'not known' }}
-            </p>
-            <p class="mb-1">
-                <b>Gender:</b>
-                {{ request.animal.gender }}
-            </p>
-            <p class="mb-1">
-                <b>Height:</b>
-                {{ request.animal.height }} cm
-            </p>
-            <p class="mb-1">
-                <b>Weight:</b>
-                {{ request.animal.weight }} kg
-            </p>
+                    <p class="mb-1">
+                        <b>Date of birth:</b>
+                        {{ request.animal.birth ?
+                            request.animal.birth|date('d.m.Y') : 'not known' }}
+                    </p>
+                    <p class="mb-1">
+                        <b>Gender:</b>
+                        {{ request.animal.gender }}
+                    </p>
+                    <p class="mb-1">
+                        <b>Height:</b>
+                        {{ request.animal.height }} cm
+                    </p>
+                    <p class="mb-1">
+                        <b>Weight:</b>
+                        {{ request.animal.weight }} kg
+                    </p>
 
-            <p class="mb-1">
-                <b>Handicap:</b>
-                {% if request.animal.handicap %}
-                    {{ request.animal.handicap }}
-                {% else %}
-                    none
-                {% endif %}
-            </p>
-            <p class="mb-1">
-                <b>Castrated:</b>
-                {{ request.animal.castration ? 'yes' : 'no' }}
-            </p>
-        </div>
-        <div class="col-md-9">
+                    <p class="mb-1">
+                        <b>Handicap:</b>
+                        {% if request.animal.handicap %}
+                            {{ request.animal.handicap }}
+                        {% else %}
+                            none
+                        {% endif %}
+                    </p>
+                    <p class="mb-1">
+                        <b>Castrated:</b>
+                        {{ request.animal.castration ? 'yes' : 'no' }}
+                    </p>
+                </div>
+            </div>
+
             <h2>Request</h2>
             <p>{{ request.description }}</p>
 
@@ -64,6 +71,43 @@
                 <b>Date of issue:</b>
                 {{ request.dateCreated|date('d.m.Y') }}
             </p>
+        </div>
+
+        <div class="col-md-6">
+            <div
+                class="d-flex justify-content-between align-items-center"
+            >
+                <h2>Examination</h2>
+                {% if is_granted('ROLE_VET') and vet  %}
+                    <div>
+                        <a
+                            href="{{ path('exam_editor', {
+                                id: request.id
+                            }) }}"
+                            class="btn btn-primary"
+                            role="button"
+                        >
+                            {{ request.examination ? 'Edit' : '+' }}
+                        </a>
+                    </div>
+                {% endif %}
+            </div>
+
+            {% if request.examination is null %}
+                <p>Examination not planned yet...</p>
+            {% else %}
+                <p class="mb-1">
+                    {{ request.examination.date|date('d.m.Y H:m') }}
+                </p>
+                <b>Result:</b>
+                <p class="mb-1">
+                    {% if request.examination.result is empty %}
+                        No result yet...
+                    {% else %}
+                        {{ request.examination.result }}
+                    {% endif %}
+                </p>
+            {% endif %}
         </div>
 	</div>
 {% endblock %}

@@ -7,17 +7,17 @@
 
     {% if is_granted('ROLE_CARER') or is_granted('ROLE_VET') %}
         <a class="nav-link" href="{{ path('animal_overview') }}">Animals</a>
+        <a class="nav-link" href="{{ path('requests') }}">Requests</a>
     {% endif %}
 
     {% if is_granted('ROLE_CARER') %}
         <a class="nav-link" href="{{ path('registrations') }}">
             Registrations
         </a>
-        <a class="nav-link" href="{{ path('requests') }}">Requests</a>
         <a class="nav-link" href="{{ path('admin_verify') }}">Verify</a>
         <a class="nav-link" href="{{ path('walks') }}">Walks</a>
     {% endif %}
-    
+
     {% if is_granted('ROLE_ADMIN') %}
         <a href="{{ path('admin_users') }}"
             class="btn btn-primary"

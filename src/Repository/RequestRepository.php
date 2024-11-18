@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Request;
+use App\Entity\Veterinary;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -16,33 +17,45 @@ class RequestRepository extends ServiceEntityRepository
         parent::__construct($registry, Request::class);
     }
 
-    public function findAllWaiting(): array
+    public function findAllWaiting(Veterinary|null $vet = null): array
     {
-        return $this->createQueryBuilder('r')
+        $query = $this->createQueryBuilder('r')
             ->select('r')
-            ->where('r.examination IS NULL')
-            ->getQuery()
-            ->getResult();
+            ->where('r.examination IS NULL');
+
+        if ($vet) {
+            $query->andWhere('r.veterinary = :vet')->setParameter('vet', $vet);
+        }
+
+        return $query->getQuery()->getResult();
     }
 
-    public function findAllScheduled(): array
+    public function findAllScheduled(Veterinary|null $vet = null): array
     {
-        return $this->createQueryBuilder('r')
+        $query = $this->createQueryBuilder('r')
             ->select('r')
             ->where('r.examination IS NOT NULL')
-            ->andWhere('r.date_fulfilled IS NULL')
-            ->getQuery()
-            ->getResult();
+            ->andWhere('r.date_fulfilled IS NULL');
+
+        if ($vet) {
+            $query->andWhere('r.veterinary = :vet')->setParameter('vet', $vet);
+        }
+
+        return $query->getQuery()->getResult();
     }
 
-    public function findAllDone(): array
+    public function findAllDone(Veterinary|null $vet = null): array
     {
-        return $this->createQueryBuilder('r')
+        $query = $this->createQueryBuilder('r')
             ->select('r')
             ->where('r.examination IS NOT NULL')
-            ->andWhere('r.date_fulfilled IS NOT NULL')
-            ->getQuery()
-            ->getResult();
+            ->andWhere('r.date_fulfilled IS NOT NULL');
+
+        if ($vet) {
+            $query->andWhere('r.veterinary = :vet')->setParameter('vet', $vet);
+        }
+
+        return $query->getQuery()->getResult();
     }
 
     public function save(Request $request): int

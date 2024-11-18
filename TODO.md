@@ -7,7 +7,3 @@ If you finish any of the tasks, please remove it from TODO!
 (more details in [administration section](#administration))
 - Volunteer walk history page
 
-### Administration
-- **Veterinary**
-    - Create/edit animal examination (based on caregiver request)
-
