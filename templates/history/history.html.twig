@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}History{% endblock %}
+
+{% block body %}
+    <h1>History of your walks</h1>
+    
+    {% if history_list is empty %}
+        <p>You have no walks in your history.</p>
+        <p>Register for walks
+        <a href="{{ path('animals') }}" >here.</a>
+        </p>
+
+    {% else %}
+        <table class="table">
+            <thead class="history_head">
+                <tr>
+                    <th scope="col">Date</th>
+                    <th scope="col">Time</th>
+                    <th scope="col">State</th>
+                    <th scope="col">Animal</th>
+                </tr>
+            </thead>
+            <tbody class="history_body">
+                {% for item in history_list %}
+                    <tr>
+                        <td>{{ item.walk.start|date('d.m.Y') }}</td>
+                        <td>{{ item.walk.start|date('H:i') }} - {{ item.walk.end|date('H:i')}}</td>
+                        <td>{{ item.state }}</td>
+                        <td>{{ item.walk.animal.name}}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+{% endblock %}
