@@ -3,7 +3,6 @@
 namespace App\DataFixtures;
 
 use App\Entity\Administrator;
-use App\Entity\Animal;
 use App\Entity\Caregiver;
 use App\Entity\User;
 use App\Entity\Veterinary;
@@ -12,7 +11,7 @@ use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
-class AppFixtures extends Fixture
+class UserFixtures extends Fixture
 {
     private UserPasswordHasherInterface $hasher;
 
@@ -23,79 +22,48 @@ class AppFixtures extends Fixture
 
     public function load(ObjectManager $manager): void
     {
-        // $product = new Product();
-        // $manager->persist($product);
-        $animal = (new Animal())
-            ->setName('Abby')
-            ->setSpecies('dog')
-            ->setBreed('idk')
-            ->setGender('female')
-            ->setColor('brown')
-            ->setHeight(33)
-            ->setWeight(8)
-            ->setImage('/pics/dog.jpg')
-            ->setDiscoveryDate(new \DateTime('2024-8-28'))
-            ->setDiscoveryPlace('Brno')
-            ->setCastration(false);
-
-        $manager->persist($animal);
-
-        $animal = (new Animal())
-            ->setName('Pickle')
-            ->setSpecies('cat')
-            ->setBreed('idk')
-            ->setGender('male')
-            ->setColor('ginger')
-            ->setHeight(26)
-            ->setWeight(4)
-            ->setImage('/pics/cat.jpg')
-            ->setDiscoveryDate(new \DateTime('2024-6-16'))
-            ->setDiscoveryPlace('Bystřice nad Pernštejnem')
-            ->setCastration(true);
-        $manager->persist($animal);
-
-        $animal = (new Animal())
-            ->setName('Melman')
-            ->setSpecies('giraffe')
-            ->setBreed('idk')
-            ->setGender('male')
-            ->setColor('yellow')
-            ->setHeight(470)
-            ->setWeight(1132)
-            ->setImage('/pics/giraffe.jpg')
-            ->setDiscoveryDate(new \DateTime('2023-01-28'))
-            ->setDiscoveryPlace('Woods')
-            ->setCastration(false);
-        $manager->persist($animal);
-
         $admin = (new User())
             ->setEmail('admin@iis.com')
-            ->setName('Admin')
-            ->setSurname('Admin')
+            ->setName('Ad')
+            ->setSurname('Min')
             ->setPhone('123456789')
             ->setAdministrator(new Administrator());
         $admin->setPassword($this->hasher->hashPassword($admin, 'admin'));
         $manager->persist($admin);
+        $this->addReference('admin', $admin);
 
         $vet = (new User())
             ->setEmail('veterinary@iis.com')
-            ->setName('Veterinary')
-            ->setSurname('Veterinary')
+            ->setName('Veter')
+            ->setSurname('Inary')
             ->setPhone('123456789')
             ->setVeterinary(new Veterinary());
         $vet->setPassword($this->hasher->hashPassword($vet, 'veterinary'));
         $manager->persist($vet);
+        $this->addReference('veterinary', $vet);
 
         $caregiver = (new User())
             ->setEmail('caregiver@iis.com')
-            ->setName('Caregiver')
-            ->setSurname('Caregiver')
+            ->setName('Care')
+            ->setSurname('Giver')
             ->setPhone('123456789')
             ->setCaregiver(new Caregiver());
         $caregiver->setPassword(
             $this->hasher->hashPassword($caregiver, 'caregiver')
         );
         $manager->persist($caregiver);
+        $this->addReference('caregiver', $caregiver);
+
+        $volunteer = (new User())
+            ->setEmail('volunteer@iis.com')
+            ->setName('Volun')
+            ->setSurname('Teer')
+            ->setPhone('412398567')
+            ->setVolunteer((new Volunteer())->setVerified(true));
+        $volunteer->setPassword(
+            $this->hasher->hashPassword($volunteer, 'volunteer')
+        );
+        $this->addReference('volunteer', $volunteer);
 
         $super = (new User())
             ->setEmail('super@iis.com')
@@ -108,6 +76,7 @@ class AppFixtures extends Fixture
             ->setVolunteer((new Volunteer())->setVerified(true));
         $super->setPassword($this->hasher->hashPassword($super, 'super'));
         $manager->persist($super);
+        $this->addReference('super', $super);
 
         $manager->flush();
     }
