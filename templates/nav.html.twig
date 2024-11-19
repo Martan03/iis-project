@@ -50,6 +50,14 @@
                 >
             </form>
 
+            {% if is_granted('ROLE_VOL') %}
+                <a href="{{ path('history') }}"
+                    class="btn btn-outline-light me-2"
+                    role="button">
+                History
+                </a>
+            {% endif %}
+
             {% if
                     is_granted('ROLE_ADMIN') or
                     is_granted('ROLE_VET') or
