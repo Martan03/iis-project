@@ -16,3 +16,7 @@
     - Create caregiver and veterinary
 - Approve animal walk registration
 - Create/edit animal examination
+- Upload the website to hosting (probably eva.fit.vutbr.cz)
+- Add `doc.html`
+    - What controller implements what use-case
+    - ER diagram
