@@ -1,0 +1,327 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html style="--ml-zoom: 1 !important;" ml-update="aware">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <title>Projekt IIS</title>
+    <style type="text/css">
+    	table { border-collapse: collapse; }
+    	td, th { border: 1px solid black; padding: 0.3em 0.5em; text-align: left; }
+    	dt { font-weight: bold; margin-top: 0.5em; }
+    </style>
+</head>
+
+<body>
+
+<!-- Zkontrolujte prosím nastavení kódování v hlavičce dokumentu
+     podle použitého editoru -->
+
+<h1>Zvířecí útulek</h1>
+
+<dl>
+	<dt>Autoři</dt>
+	<dd>
+        Jan Juračka
+	    <a href="mailto:xjurac07@stud.fit.vutbr.cz">
+            xjurac07@stud.fit.vutbr.cz
+        </a>
+        - popis činnosti v týmu
+	</dd>
+	<dd>
+        Martin Slezák
+	    <a href="mailto:xsleza26@stud.fit.vutbr.cz">
+            xsleza26@stud.fit.vutbr.cz
+        </a>
+        - popis činnosti v týmu
+	</dd>
+    <dd>
+        Jakub Antonín Štigler
+	    <a href="mailto:xstigl00@stud.fit.vutbr.cz">
+            xstigl00@stud.fit.vutbr.cz
+        </a>
+        - popis činnosti v týmu
+	</dd>
+	<dt>URL aplikace</dt>
+	<dd>
+        <a href="http://www.stud.fit.vutbr.cz/~xsleza26/IIS">
+            http://www.stud.fit.vutbr.cz/~xsleza26/IIS
+        </a>
+    </dd>
+	<dd>
+        (pokud má aplikace více vstupních stránek, napište obdobně další URL)
+    </dd>
+</dl>
+
+<h2>Uživatelé systému pro testování</h2>
+<!-- <p>Uveďte prosím existující zástupce <strong>všech rolí uživatelů</strong>.</p> -->
+<table>
+    <tbody>
+        <tr>
+            <th>Login</th>
+            <th>Heslo</th>
+            <th>Role</th>
+        </tr>
+        <tr>
+            <td>admin@iis.com</td>
+            <td>admin</td>
+            <td>Administrátor</td>
+        </tr>
+        <tr>
+            <td>caregiver@iis.com</td>
+            <td>caregiver</td>
+            <td>Pečovatel</td>
+        </tr>
+        <tr>
+            <td>veterinary@iis.com</td>
+            <td>veterinary</td>
+            <td>Veterinář</td>
+        </tr>
+        <tr>
+            <td>super@iis.com</td>
+            <td>super</td>
+            <td>Administrátor, pečovatel, veterinář, dobrovolník</td>
+        </tr>
+    </tbody>
+</table>
+
+<!-- <p>
+    (Diagram případů užití není nutné vkládat, pokud IS implementuje role a
+    případy užití definované zadáním.)
+</p> -->
+
+<h3>Video</h3>
+
+<p>
+    Přiložte odkaz na komentované video demostrující použití informačního
+    systému. Zaměřte se na případy užití definované zadáním (např. registrace
+    uživatele, správa uživatelů a činnosti jednotlivých rolí). Video nahrajte
+    například na VUT Google Drive, kde ho bude možné přímo spustit z odkazu.
+</p>
+
+<h2>Implementace</h2>
+<!-- <p>
+    Stručná dokumentace k implementaci, která popisuje, které části projektu
+    (např. PHP skripty) implementují jednotlivé případy použití.
+</p> -->
+
+<ul>
+    <li>
+        Správa uživatelů administrátorem
+        <ul>
+            <li>
+                <b>Soubor:</b> <var>src/Controller/AdminController.php</var>
+            </li>
+            <li><b>Funkce:</b> <var>users</var> a <var>user</var></li>
+            <li>Tabulka uživatelů se základními daty</li>
+            <li>Po rozkliku uživatele lze měnit roli nebo uživatele smazat</li>
+            <li>Administrátor nemůže měnit či mazat sám sebe</li>
+        </ul>
+    </li>
+    <li>
+        Správa zvířat pečovatelem
+        <ul>
+            <li>
+                <b>Soubor:</b> <var>src/Controller/AnimalController.php</var>
+            </li>
+            <li><b>Funkce:</b> <var>overview</var> a <var>editor</var></li>
+            <li>Tabulka zvířat se základními údaji</li>
+            <li>Možnost smazat zvíře nebo přidat nové</li>
+            <li>Po rozkliku zvířete se otevře editor daného zvířete</li>
+        </ul>
+    </li>
+    <li>
+        Vytváření rozvrhu pečovatelem
+        <ul>
+            <li>
+                <b>Soubor:</b> <var>src/Controller/WalkController.php</var>
+            </li>
+            <li><b>Funkce:</b> <var>walks</var> a <var>editor</var></li>
+            <li>Tabulka procházek se základními údaji</li>
+            <li>Možnost přidat novou procházku</li>
+            <li>Po rozkliku procházky se otevře editor dané procházky</li>
+        </ul>
+    </li>
+    <li>
+        Ověření dobrovolníků pečovatelem
+        <ul>
+            <li>
+                <b>Soubor:</b> <var>src/Controller/AdminController.php</var>
+            </li>
+            <li>
+                <b>Funkce:</b> <var>verify</var> a <var>verify_detail</var>
+            </li>
+            <li>
+                Tabulka uživatelů se základními daty (filtrováni na základě
+                statusu ověření - to verify, verified, denied)
+            </li>
+            <li>Po rozkliku uživatele lze změnit status ověření</li>
+        </ul>
+    </li>
+    <li>
+        Schvalování rezervací zvířat, evidence zapůjčení a vrácení pečovatelem
+        <ul>
+            <li>
+                <b>Soubor:</b> <var>src/Controller/WalkController.php</var>
+            </li>
+            <li>
+                <b>Funkce:</b> <var>registrations</var> a
+                <var>registration</var>
+            </li>
+            <li>Tabulka registrací s detaily</li>
+            <li>Po rozkliku registrace zobrazení frontu dobrovolníků</li>
+            <li>
+                Pečovatel vybere jednoho z fronty, poté může kliknout tlačítko
+                'Borrow', což značí zapůjčení, následně tlačíko 'Return'
+                značící vrácení
+            </li>
+        </ul>
+    </li>
+    <li>
+        Vytváření požadavků na veterináře pečovatelem
+        <ul>
+            <li>
+                <b>Soubor:</b> <var>src/Controller/RequestController.php</var>
+            </li>
+            <li>
+                <b>Funkce:</b> <var>requests</var>, <var>editor</var> a
+                <var>request</var>
+            </li>
+            <li>
+                Tabulka požadavků obsahující základní informace (pečovatel
+                vidí veškeré požadavky, veterinář pouze požadavky na sebe)
+            </li>
+            <li>
+                Požadavky jsou filtrovány podle stavu - waiting, scheduled,
+                done
+            </li>
+            <li>Možnost přidat nový požadavek</li>
+            <li>
+                Po rozkliku požadavku zobrazení informací, případně informace
+                o vyšetření
+            </li>
+        </ul>
+    </li>
+    <li>
+        Vyřirování požadavků od pečovatele veterinářem (plánování vyšetření)
+        <ul>
+            <li>
+                <b>Soubor:</b> <var>src/Controller/RequestController.php</var>
+            </li>
+            <li>
+                <b>Funkce:</b> <var>requests</var>, <var>request</var> a
+                <var>exam_editor</var>
+            </li>
+            <li>
+                Stejné jako u předchozího, kromě možnosti přidání požadavku
+            </li>
+            <li>V detailu požadavku možnost přidat/upravit vyšetření</li>
+        </ul>
+    </li>
+    <li>
+        Udržování zdravotního stavu veterinářem
+        <ul>
+            <li>
+                <b>Soubor:</b> <var>src/Controller/AnimalController.php</var>
+            </li>
+            <li><b>Funkce:</b> <var>overview</var> a <var>editor</var></li>
+            <li>
+                Stejné jako správa zvířat pečovatelem, jen v úpravě může
+                upravovat pouze zdravotní stav
+            </li>
+        </ul>
+    </li>
+    <li>
+        Rezervace zvířat dobrovolníkem
+        <ul>
+            <li>
+                <b>Soubory:</b> <var>src/Controller/AnimalController.php</var>
+                a <var>src/Controller/WalkController.php</var>
+            </li>
+            <li><b>Funkce:</b> <var>animal</var> a <var>walk</var></li>
+            <li>Kalendář s vycházkami na stránce zvířete</li>
+            <li>Po kliknutí otevření detailu vycházky, možnost registrace</li>
+        </ul>
+    </li>
+    <li>
+        Historie venčení dobrovolníka
+        <ul>
+            <li>
+                <b>Soubor:</b> <var>src/Controller/HistoryController.php</var>
+            </li>
+            <li><b>Funkce:</b> <var>index</var></li>
+            <li>
+                Tabulka procházek daného uživatele se základními informacemi
+            </li>
+        </ul>
+    </li>
+    <li>
+        Procházení útulku neregistrovaným uživatelem
+        <ul>
+            <li>
+                Domovská stránka a stránka se zvířaty + jejich detail
+            </li>
+        </ul>
+    </li>
+</ul>
+
+<h3>Databáze</h3>
+
+<!-- Zde vložte grafické schéma relační databáze (tabulek v databázi). -->
+<img
+    src="iis-er.svg"
+    alt="ER diagram zvířecího útolku - IIS projekt"
+    style="max-width: 100%;"
+/>
+
+<h2>Instalace</h2>
+
+<h3>Instalace závislostí</h3>
+<!-- Stručně popište:
+<ul>
+    <li>postup instalace na server,</li>
+    <li>softwarové požadavky (verze PHP apod.),</li>
+    <li>jak rozbalit, konfigurovat, inicializovat databázi, ...</li>
+</ul> -->
+
+<h3>Softwarové požadavky</h3>
+<ul>
+    <li>
+        <var>PHP</var> ve verzi 8.2 a novější + PHP rozšíření
+        <ul>
+            <li>iconv</li>
+            <li>pdo_mysql</li>
+        </ul>
+    </li>
+    <li><var>composer</var> pro danou verzi PHP</li>
+</ul>
+
+<h3>Instalace</h3>
+<p>
+    Je potřeba nainstalovat balíčky pomocí <var>composer</var>:
+</p>
+<code>composer install</code>
+
+<h3>Databáze</h3>
+<p>
+    Nejdříve je potřeba přidat URL databáze do souboru <var>.env</var>,
+    proměnná <var>DATABASE_URL</var>. Následně je možné vygenerovat migraci,
+    která nám vytvoří veškeré potřebné tabulky (pozn. je třeba mít
+    nainstalované vývojové balíčky).
+</p>
+<code>php bin/console make:migration</code>
+
+<p>A následné provedení migrace:</p>
+<code>php bin/console doctrine:migrations:migrate</code>
+
+<p>Pro přidání předpřipravených dat je možné načíst fixtures:</p>
+<code>php bin/console doctrine:fixtures:load</code>
+
+<!-- <h2>Známé problémy</h2>
+<p>
+    Zde popište, které body zadání nejsou implementovány a z jakého důvodu.
+    Např. „Z časových důvodů nebyla implementována správa uživatelů.” Pomůžete
+    tím zrychlit hodnocení, když neimplementované funkce nebudeme muset dlouze
+    hledat.
+</p> -->
+
+</body>
+</html>
