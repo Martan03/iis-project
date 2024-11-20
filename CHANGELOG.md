@@ -17,6 +17,9 @@
 - Approve animal walk registration
 - Create/edit animal examination
 - Upload the website to hosting (probably eva.fit.vutbr.cz)
+- Volunteer walk history page
 - Add `doc.html`
     - What controller implements what use-case
     - ER diagram
+- Display only walks with registrations and sort by date, filter not returned
+- Don't allow registering walks in past

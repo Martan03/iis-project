@@ -63,6 +63,7 @@ class UserFixtures extends Fixture
         $volunteer->setPassword(
             $this->hasher->hashPassword($volunteer, 'volunteer')
         );
+        $manager->persist($volunteer);
         $this->addReference('volunteer', $volunteer);
 
         $super = (new User())

@@ -50,6 +50,14 @@ class WalkController extends AbstractController
         }
         $error = null;
 
+        if ($walk->getStart() < new \DateTime()) {
+            return $this->render('walk/index.html.twig', [
+                'walk' => $walk,
+                'error' => $error,
+                'form' => null,
+            ]);
+        }
+
         $form = $this->createFormBuilder()
             ->add('register', SubmitType::class)
             ->getForm();

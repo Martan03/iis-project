@@ -33,10 +33,11 @@ class WalkRepository extends ServiceEntityRepository
     }
 
     public function getFuture(): array {
-        $now = time();
         return $this->createQueryBuilder('w')
-            ->where('w.start > :now')
-            ->setParameter('now', $now)
+            ->innerJoin('w.registrations', 'r')
+            ->where('r.state != :state')
+            ->orderBy('w.start')
+            ->setParameter('state', 'Returned')
             ->getQuery()
             ->getResult();
     }
