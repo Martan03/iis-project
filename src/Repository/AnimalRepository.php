@@ -22,6 +22,7 @@ class AnimalRepository extends ServiceEntityRepository
             ->select('a')
             ->where('a.name LIKE :query')
             ->orWhere('a.species LIKE :querySpec')
+            ->orderBy('a.name')
             ->setParameter('query', '%' . $query . '%')
             ->setParameter('querySpec', $query . '%')
             ->getQuery()

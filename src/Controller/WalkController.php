@@ -96,7 +96,7 @@ class WalkController extends AbstractController
     #[IsGranted('ROLE_CARER')]
     public function walks(): Response
     {
-        $walks = $this->wr->findAll();
+        $walks = $this->wr->findBy([], ['start' => 'ASC']);
 
         return $this->render('walk/walks.html.twig', [
             'walks' => $walks,

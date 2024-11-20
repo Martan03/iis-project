@@ -7,6 +7,7 @@ use App\Entity\Request as EntityRequest;
 use App\Form\RequestType;
 use App\Entity\User;
 use App\Form\ExaminationType;
+use App\Repository\AnimalRepository;
 use App\Repository\ExaminationRepository;
 use App\Repository\RequestRepository;
 use DateTime;
@@ -20,13 +21,16 @@ class RequestController extends AbstractController
 {
     private RequestRepository $rr;
     private ExaminationRepository $er;
+    private AnimalRepository $ar;
 
     public function __construct(
         RequestRepository $rr,
-        ExaminationRepository $er
+        ExaminationRepository $er,
+        AnimalRepository $ar
     ) {
         $this->rr = $rr;
         $this->er = $er;
+        $this->ar = $ar;
     }
 
     #[Route('/admin/requests', name: 'requests')]
@@ -57,6 +61,11 @@ class RequestController extends AbstractController
     public function editor(Request $request, int|null $id): Response
     {
         $req = new EntityRequest();
+        $animal_id = $request->query->get('animal', null);
+        if ($animal_id) {
+            $req->setAnimal($this->ar->findOneBy(['id' => $animal_id]));
+        }
+
         if ($id) {
             $req = $this->rr->findOneBy(['id' => $id]);
         }

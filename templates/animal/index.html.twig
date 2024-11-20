@@ -17,6 +17,15 @@
                 {% if is_granted('ROLE_CARER') %}
                     <div>
                         <a
+                            href="{{ path('request_editor', {
+                                'animal': animal.id
+                            }) }}"
+                            class="btn btn-primary"
+                            role="button"
+                        >
+                            Request
+                        </a>
+                        <a
                             href="{{ path('animal_editor', {
                                 'id': animal.id
                             }) }}"
