@@ -23,3 +23,4 @@
     - ER diagram
 - Display only walks with registrations and sort by date, filter not returned
 - Don't allow registering walks in past
+- Add submit makefile
