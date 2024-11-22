@@ -28,7 +28,7 @@ class Examination
     private ?Request $request = null;
 
     #[ORM\ManyToOne(inversedBy: 'examinations')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: true, onDelete: 'SET NULL')]
     private ?Veterinary $veterinary = null;
 
     public function getId(): ?int

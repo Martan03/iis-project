@@ -26,6 +26,8 @@ doctrine:
                 alias: App
         controller_resolver:
             auto_mapping: false
+        filters:
+            animal_inCare: App\Doctrine\InCareFilter
 
 when@test:
     doctrine:

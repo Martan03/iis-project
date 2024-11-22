@@ -35,7 +35,11 @@
             {% for adept in adepts %}
                 <tr>
                     <td class="align-middle">
-                        {{ adept.volunteer.user.email }}
+                        {% if adept.volunteer %}
+                            {{ adept.volunteer.user.email }}
+                        {% else %}
+                            <i>&lt;deleted user&gt;</i>
+                        {% endif %}
                     </td>
                     <td class="align-middle">
                         {% if adept.state == 'waiting' %}

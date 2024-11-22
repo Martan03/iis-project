@@ -19,9 +19,6 @@
     {% endif %}
 
     {% if is_granted('ROLE_ADMIN') %}
-        <a href="{{ path('admin_users') }}"
-            class="btn btn-primary"
-            role="button"
-        >Users</a>
+        <a href="{{ path('admin_users') }}" class="nav-link">Users</a>
     {% endif %}
 {% endblock %}

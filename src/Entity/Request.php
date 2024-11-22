@@ -30,11 +30,11 @@ class Request
     private ?Animal $animal = null;
 
     #[ORM\ManyToOne(inversedBy: 'requests')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: true, onDelete: 'SET NULL')]
     private ?Caregiver $caregiver = null;
 
     #[ORM\ManyToOne(inversedBy: 'requests')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: true, onDelete: 'SET NULL')]
     private ?Veterinary $veterinary = null;
 
     public function getId(): ?int

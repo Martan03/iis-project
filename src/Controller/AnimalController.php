@@ -6,6 +6,7 @@ use App\Entity\Animal;
 use App\Form\AnimalHealthType;
 use App\Form\AnimalType;
 use App\Repository\AnimalRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,9 +18,12 @@ class AnimalController extends AbstractController
 {
     private AnimalRepository $ar;
 
-    public function __construct(AnimalRepository $ar)
-    {
+    public function __construct(
+        AnimalRepository $ar,
+        EntityManagerInterface $em
+    ) {
         $this->ar = $ar;
+        $em->getFilters()->enable('animal_inCare');
     }
 
     #[Route('/animals', name: 'animals')]

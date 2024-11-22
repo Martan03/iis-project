@@ -3,12 +3,17 @@
 namespace App\Controller;
 
 use App\Repository\AnimalRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
 class HomeController extends AbstractController
 {
+    public function __construct(EntityManagerInterface $em) {
+        $em->getFilters()->enable('animal_inCare');
+    }
+
     #[Route('/', name: 'home')]
     public function index(AnimalRepository $ar): Response
     {

@@ -57,15 +57,23 @@
 
             <p class="mb-1">
                 <b>Caregiver:</b>
-                {{ request.caregiver.user.name }}
-                {{ request.caregiver.user.surname }}
-                ({{ request.caregiver.user.email }})
+                {% if request.caregiver %}
+                    {{ request.caregiver.user.name }}
+                    {{ request.caregiver.user.surname }}
+                    ({{ request.caregiver.user.email }})
+                {% else %}
+                    <i>&lt;deleted user&gt;</i>
+                {% endif %}
             </p>
             <p class="mb-1">
                 <b>Veterinary:</b>
-                {{ request.veterinary.user.name }}
-                {{ request.veterinary.user.surname }}
-                ({{ request.veterinary.user.email }})
+                {% if request.veterinary %}
+                    {{ request.veterinary.user.name }}
+                    {{ request.veterinary.user.surname }}
+                    ({{ request.veterinary.user.email }})
+                {% else %}
+                    <i>&lt;deleted user&gt;</i>
+                {% endif %}
             </p>
             <p class="mb-1">
                 <b>Date of issue:</b>

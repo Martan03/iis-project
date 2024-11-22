@@ -20,7 +20,7 @@ class Registration
     private ?Walk $walk = null;
 
     #[ORM\ManyToOne(inversedBy: 'registrations')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: true, onDelete: 'SET NULL')]
     private ?Volunteer $volunteer = null;
 
     public function getId(): ?int

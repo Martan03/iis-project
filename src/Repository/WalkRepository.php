@@ -34,8 +34,10 @@ class WalkRepository extends ServiceEntityRepository
 
     public function getFuture(): array {
         return $this->createQueryBuilder('w')
+            ->innerJoin('w.animal', 'a')
             ->innerJoin('w.registrations', 'r')
-            ->where('r.state != :state')
+            ->where('a.in_care = true')
+            ->andWhere('r.state != :state')
             ->orderBy('w.start')
             ->setParameter('state', 'Returned')
             ->getQuery()

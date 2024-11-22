@@ -20,8 +20,7 @@ class AnimalRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('a')
             ->select('a')
-            ->where('a.name LIKE :query')
-            ->orWhere('a.species LIKE :querySpec')
+            ->where('a.name LIKE :query OR a.species LIKE :querySpec')
             ->orderBy('a.name')
             ->setParameter('query', '%' . $query . '%')
             ->setParameter('querySpec', $query . '%')
@@ -32,6 +31,7 @@ class AnimalRepository extends ServiceEntityRepository
     public function countSpecies(): int {
         return $this->createQueryBuilder('a')
             ->select('COUNT(DISTINCT a.species)')
+            ->where('a.in_care = true')
             ->getQuery()
             ->getSingleScalarResult();
     }
@@ -47,8 +47,7 @@ class AnimalRepository extends ServiceEntityRepository
 
     public function delete(Animal $animal)
     {
-        $em = $this->getEntityManager();
-        $em->remove($animal);
-        $em->flush();
+        $animal->setInCare(false);
+        $this->save($animal);
     }
 }

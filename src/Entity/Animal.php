@@ -76,6 +76,9 @@ class Animal
     #[ORM\Column]
     private ?bool $castration = null;
 
+    #[ORM\Column]
+    private ?bool $in_care = true;
+
     public function __construct()
     {
         $this->examinations = new ArrayCollection();
@@ -342,6 +345,18 @@ class Animal
     public function setCastration(bool $castration): static
     {
         $this->castration = $castration;
+
+        return $this;
+    }
+
+    public function isInCare(): ?bool
+    {
+        return $this->in_care;
+    }
+
+    public function setInCare(bool $in_care): static
+    {
+        $this->in_care = $in_care;
 
         return $this;
     }
