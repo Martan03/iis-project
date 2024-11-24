@@ -286,7 +286,7 @@
 
 <h2>Instalace</h2>
 
-<h3>Instalace závislostí</h3>
+<!-- <h3>Instalace závislostí</h3> -->
 <!-- Stručně popište:
 <ul>
     <li>postup instalace na server,</li>
@@ -304,6 +304,7 @@
         </ul>
     </li>
     <li><var>composer</var> pro danou verzi PHP</li>
+    <li>Aplikace uložena přímo ve WWW složce</li>
 </ul>
 
 <h3>Instalace</h3>
@@ -316,8 +317,7 @@
 <p>
     Nejdříve je potřeba přidat URL databáze do souboru <var>.env</var>,
     proměnná <var>DATABASE_URL</var>. Následně je možné vygenerovat migraci,
-    která nám vytvoří veškeré potřebné tabulky (pozn. je třeba mít
-    nainstalované vývojové balíčky).
+    která nám vytvoří veškeré potřebné tabulky.
 </p>
 <code>php bin/console make:migration</code>
 
@@ -327,8 +327,8 @@
 <p>Pro přidání předpřipravených dat je možné načíst fixtures:</p>
 <code>php bin/console doctrine:fixtures:load</code>
 
-<!-- <h2>Známé problémy</h2>
-<p>
+<!-- <h2>Známé problémy</h2> -->
+<!-- <p>
     Zde popište, které body zadání nejsou implementovány a z jakého důvodu.
     Např. „Z časových důvodů nebyla implementována správa uživatelů.” Pomůžete
     tím zrychlit hodnocení, když neimplementované funkce nebudeme muset dlouze

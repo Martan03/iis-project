@@ -3,7 +3,19 @@
 {% block title %}Animals{% endblock %}
 
 {% block body %}
-    <h1>Animals</h1>
+    <div class="d-flex justify-content-between align-items-center">
+	    <h1>Animals</h1>
+
+        {% if is_granted('ROLE_CARER') %}
+            <a
+                href="{{ path('animal_editor') }}"
+                class="btn btn-primary"
+                role="button"
+            >
+                +
+            </a>
+        {% endif %}
+    </div>
 
     {% if animals is empty %}
         <p>No volunteers found...</p>

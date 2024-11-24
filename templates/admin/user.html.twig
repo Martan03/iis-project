@@ -31,7 +31,7 @@
         </div>
         <br><br>
         <p>Email: {{ user.email }}</p>
-        <p>Phone: {{ user.phone }}</p>
+        <p>Phone: {{ user.phone ? user.phone : 'not given' }}</p>
         <form method="POST"
             action="{{ path('admin_user', { 'id': user.id }) }}"
         >

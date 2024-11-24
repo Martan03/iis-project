@@ -41,7 +41,7 @@ class Animal
     #[ORM\Column]
     private ?float $weight = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $image = null;
 
     private ?File $file = null;

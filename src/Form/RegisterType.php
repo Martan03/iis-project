@@ -35,7 +35,9 @@ class RegisterType extends AbstractType
             ])
             ->add('name')
             ->add('surname')
-            ->add('phone', TelType::class)
+            ->add('phone', TelType::class, [
+                'required' => false,
+            ])
             ->add('register', SubmitType::class);
     }
 
